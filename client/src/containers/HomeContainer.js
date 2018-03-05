@@ -8,9 +8,9 @@ const Header = () => (
   <header className="container pt-5">
     <div className="row align-items-center pt-5 pb-3 flex-column">
       <div className="pb-5">
-        <img src="./assets/img//LogoMP2.png" alt="ChilCompra MercadoPúblico" />
+        <img src="./assets/img//LogoMP2.png" alt="ChileCompra MercadoPúblico" />
       </div>
-      <div className="pt-5 d-flex flex-column col-md-7 text-center">
+      <div className="d-flex flex-column col-md-7 text-center">
         <h1>Nuevas ideas para Mercado Público</h1>
         <p>Te proponemos un espacio de conversación sobre mejoras e ideas para que juntos, podamos mejorar la forma de comprar
             y vender en el Estado.</p>
@@ -42,22 +42,22 @@ const Categorias = () => (
   <section className="container my-5">
     <h2 className="text-center mb-4">Revisar ideas por categoría</h2>
     <div className="row">
-      <div className="col-md-3 mt-2">
+      <div className="col-md-6 mt-2 col-sm-6 col-lg-3">
         <div className="dvIdeasPorCategoria text-center px-3 d-flex align-items-center justify-content-center">
           <h5 className="text-uppercase mb-0">compradores</h5>
         </div>
       </div>
-      <div className="col-md-3 mt-2">
+      <div className="col-md-6 mt-2 col-sm-6 col-lg-3">
         <div className="dvIdeasPorCategoria text-center px-3 d-flex align-items-center justify-content-center">
           <h5 className="text-uppercase mb-0">pagos</h5>
         </div>
       </div>
-      <div className="col-md-3 mt-2">
+      <div className="col-md-6 mt-2 col-sm-6 col-lg-3">
         <div className="dvIdeasPorCategoria text-center px-3 d-flex align-items-center justify-content-center">
           <h5 className="text-uppercase mb-0">proveedores</h5>
         </div>
       </div>
-      <div className="col-md-3 mt-2">
+      <div className="col-md-6 mt-2 col-sm-6 col-lg-3">
         <div className="dvIdeasPorCategoria text-center px-3 d-flex align-items-center justify-content-center">
           <h5 className="text-uppercase mb-0">convenio marco</h5>
         </div>

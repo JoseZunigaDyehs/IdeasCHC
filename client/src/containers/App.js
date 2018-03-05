@@ -1,13 +1,12 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import '../style.css'
+import {connect} from 'react-redux'
 
 import HomeContainer from './HomeContainer'
 import Idea from './Idea'
 import SubirIdea from './SubirIdea'
 import Login from '../Initial/Login'
-
-// import NoMatch from './components/shared/NoMatch' 
 
 const Header = () => {
   return (
@@ -23,47 +22,31 @@ const Header = () => {
   )
 };
 
-const App = () => {
+const App = (props) => {
+  console.log(props.login);
   return (
     <Router>
       <div>
         <Header />
         <Route exact path='/' component={HomeContainer} />
         <Route path='/idea/:id' component={Idea} />
-        <Route path='/subir-idea' component={SubirIdea} />
+        <Route path='/subir-idea' component={SubirIdea}/>
         <Route path='/login' component={Login} />
       </div>
     </Router>
   )
 }
 
-export default App
+const mapStateToProps = (state) => {
+  return {
+    login: state.login
+  }
+}
 
-// import Home from './Initial/Home';
-// import Login from './Initial/Login';
-// import Signup from './Initial/Signup';
+const mapDispatchToProps = (dispatch) => {
+  return {
+    
+  }
+}
 
-// const Header = () => {
-//   return (
-//     <nav>
-//       <Link to='/'>Home</Link>
-//       <Link to='/signup'>Sign Up</Link>
-//       <Link to='/login'>Login</Link>
-//     </nav>
-//   )
-// };
-
-// const App = () => {
-//   return (
-//     <Router>
-//       <div>
-//         <Header />
-//         <Route exact path='/' component={Home}/>
-//         <Route path='/login' component={Login}/>
-//         <Route path='/signup' component={Signup}/>
-//       </div>
-//     </Router>
-//   )
-// };
-
-// export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App)

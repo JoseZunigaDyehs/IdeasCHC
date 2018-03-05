@@ -13,10 +13,11 @@ const Header = () => (
   </header>
 )
 
-const Main = () => {
+const Main = (props) => {
   const funcionForma = (datos) => {
-    console.log(datos)
-    //let config = {'Authorization': props.login.jwt}
+    console.log('pooooo',datos)
+    console.log(props);
+    let config = {'Authorization': 'Bearer' + props.login.jwt }//props.login.jwt}
     axios.post('https://blog-api-u.herokuapp.com/v1/posts',
       {
         post: {
@@ -24,9 +25,9 @@ const Main = () => {
           body:datos.dirigido
         }
       }
-      // ,{
-      //   headers: config
-      // }
+      ,{
+        headers: config
+      }
     )
       .then(res=>{
         console.log(res);
@@ -58,16 +59,19 @@ class SubirIdea extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-
-  }
-}
-
 const mapStateToProps = (state) => {
   return {
-
+    login: state.login
   }
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    create: ()=>{
+      dispatch({type: 'CREATED_'})
+    }
+  }
+}
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(SubirIdea);

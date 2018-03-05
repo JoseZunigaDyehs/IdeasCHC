@@ -14,3 +14,19 @@ export const allPost = (state = [], action) => {
   }
 
 }
+
+export const create = (state = null, action) => {
+  var nuevoEstado = Object.assign({}, state);
+
+  switch (action.type) {
+    case 'CREATED_':
+      nuevoEstado = 'Post exitoso'
+      return nuevoEstado;
+    case 'DATA_CLEAR':
+      nuevoEstado = [];
+      return nuevoEstado;      
+    default:
+      return null;
+  }
+
+}

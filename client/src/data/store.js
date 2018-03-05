@@ -1,5 +1,4 @@
-import { createStore, combineReducers } from 'redux';
-import {reducer as formReducer} from 'redux-form';
+import { createStore } from 'redux';
 import reducer from '../reducers';
 
 const userCreated = (state="", action) => {
