@@ -18,14 +18,6 @@ const validate = values => {
   return errors
 }
 
-// const warn = values => {
-//   const warnings = {}
-//   if (values.age < 19) {
-//     warnings.age = 'Hmm, you seem a bit young...'
-//   }
-//   return warnings
-// }
-
 const renderField = ({
   input,
   label,
@@ -64,5 +56,4 @@ const LoginForm = props => {
 export default reduxForm({
   form: 'LoginForm', // a unique identifier for this form
   validate, // <--- validation function given to redux-form
-  //warn // <--- warning function given to redux-form
 })(LoginForm)

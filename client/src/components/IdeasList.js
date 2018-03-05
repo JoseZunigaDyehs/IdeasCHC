@@ -1,6 +1,6 @@
 import React from 'react'
 import Idea from './Idea'
-import { BrowserRouter as Link } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
 const IdeasList = ({ ideas }) => {
   return (

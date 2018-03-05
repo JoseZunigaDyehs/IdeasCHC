@@ -1,11 +1,12 @@
 import { connect } from 'react-redux'
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import axios from 'axios';
 import IdeasList from '../components/IdeasList'
 
 class IdeasHomeContainer extends Component {
 
   componentDidMount = () => {
+    document.getElementById('allPost').innerHTML = '<i class="fas fa-spinner"></i>';
     this.props.getAllPosts();
   };
   componentWillUnmount() {
@@ -14,18 +15,20 @@ class IdeasHomeContainer extends Component {
 
   //Funciones
   allPosts = () => {
-    return <IdeasList ideas={this.props.allPosts}/>;
+    return <IdeasList ideas={this.props.allPosts} />;
   }
 
   render() {
     return (
       <div>
-      {this.allPosts()}
+        <div id="allPost" className="text-center"></div>
+        {this.allPosts()}
       </div>
     );
   }
 
 }
+
 
 const mapStateToProps = (state) => {
   return {
@@ -40,6 +43,7 @@ const mapDispatchToProps = (dispatch) => {
       axios.get('https://blog-api-u.herokuapp.com/v1/posts')
         .then((res) => {
           dispatch({ type: "DATA_LOADER", data: res.data });
+          document.getElementById('allPost').innerHTML = '';
         })
         .catch((err) => {
           console.log(err);

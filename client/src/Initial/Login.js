@@ -1,52 +1,54 @@
 import React from 'react'
 import LoginForm from './LoginForm'
 import axios from 'axios'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
+import { reset } from 'redux-form'
 
 const Login = (props) => {
-  console.log(props);
-  const funcForm = (datos) =>{
-    console.log(datos)
-    axios.post('https://blog-api-u.herokuapp.com/v1/login',{
+  const funcionForm = (datos) => {
+    console.log('object');
+
+    axios.post('https://blog-api-u.herokuapp.com/v1/login', {
       login: {
         email: datos.email,
-        password:datos.password
+        password: datos.password
       }
     }
-  )
-  .then((res)=>{
-    console.log(res.data)
-    props.login(res.data)
-  })
-  .catch(err=>{
-    console.log(err);
-  })
+    )
+      .then((res) => {
+        props.login(res.data)
+      })
+      .catch(err => {
+        console.log(err)
+        props.errorLogin(err)
+      })
   }
   return (
-      <div>
-        <h2>Login</h2>
-        <LoginForm onSubmit={funcForm}/>
-      </div>
+    <div>
+      <h2>Login</h2>
+      {props.mensaje}
+      <LoginForm onSubmit={funcionForm} />
+    </div>
   )
 };
 
 const mapStateToProps = (state) => {
   return {
-    prop: state.prop
+    mensaje: state.statusUser
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    login: (datos)=>{
-      console.log('datos',datos);
-      dispatch({type:'LOGIN', data: datos})
+    login: (datos) => {
+      dispatch({ type: 'LOGIN', data: datos })
+      dispatch(reset('LoginForm'))
     },
-    errorLogin: (err)=>{
-      dispatch({type:'LOGOUT', data: err})
+    errorLogin: (err) => {
+      dispatch({ type: 'LOGIN_ERROR', data: err })
     }
 
   }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
