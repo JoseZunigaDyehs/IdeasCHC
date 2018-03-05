@@ -1,6 +1,22 @@
 import { createStore, combineReducers } from 'redux';
 import {reducer as formReducer} from 'redux-form';
-import reducer from '../reducers';
+
+//REDUCERS
+const allPost = (state = [], action) => {
+  var nuevoEstado = Object.assign({}, state);
+
+  switch (action.type) {
+    case 'DATA_LOADER':
+      nuevoEstado = state.concat(action.data);
+      return nuevoEstado;
+    case 'DATA_CLEAR':
+      nuevoEstado = [];
+      return nuevoEstado;      
+    default:
+      return state;
+  }
+
+}
 
 const userCreated = (state="", action) => {
   var nuevoEstado = Object.assign({}, state);
@@ -15,6 +31,13 @@ const userCreated = (state="", action) => {
       return state;
   }
 }
+
+//COMBINE REDUCER
+const reducer = combineReducers({
+  allPost: allPost,
+  form: formReducer,
+  statusUser: userCreated
+});
 
 const store = createStore(reducer);
 

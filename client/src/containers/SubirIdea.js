@@ -3,12 +3,11 @@ import Footer from '../components/shared/Footer'
 import EnviarIdeaForm from '../components/forms/EnviarIdeaForm'
 
 const Header = () => (
-  <header>
-    <div className="top"></div>
-    <div className="btn-back d-flex py-3 justify-content-center mt-3" onClick={window.history.back}>
+  <header className='pt-5'>
+    {/* <div className="btn-back d-flex py-3 justify-content-center mt-3" onClick={window.history.back}>
       <i className="fas fa-arrow-left"></i>
       <p className="mb-0 ml-3 f-w-500">VOLVER</p>
-    </div>
+    </div> */}
   </header>
 )
 

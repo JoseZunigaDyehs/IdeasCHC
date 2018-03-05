@@ -1,4 +1,5 @@
 import React from 'react'
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 
 const IdeaAportar = () => (
   <section className="back-pink py-3">
@@ -6,10 +7,11 @@ const IdeaAportar = () => (
         <div className="row py-5">
           <div className="col-md-12 d-flex align-items-center flex-column">
             <h3 className="text-white f-w-300 mb-4">¿Tienes una idea para aportar?</h3>
-            <a href="subir-idea" className="btn btn-white py-3 px-4">
+            <Link to='/subir-idea' className="btn btn-white py-3 px-4">
+            
               COMPARTIR IDEA
               <i className="fas fa-arrow-right"></i>
-            </a>
+            </Link>
           </div>
         </div>
       </div>
