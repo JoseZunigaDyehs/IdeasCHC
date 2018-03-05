@@ -89,6 +89,15 @@ h2 {
     text-decoration: none;
 }
 
+.link-sec {
+    color: #fff;
+}
+
+.link-sec:hover {
+    color: #fff;
+    /* //text-decoration: none; */
+}
+
 *:hover,
 *:active,
 *:focus,

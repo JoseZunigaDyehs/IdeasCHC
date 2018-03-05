@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import Footer from '../components/shared/Footer'
 import EnviarIdeaForm from '../components/forms/EnviarIdeaForm'
+import axios from 'axios'
 
 const Header = () => (
   <header className='pt-5'>
@@ -14,24 +16,58 @@ const Header = () => (
 const Main = () => {
   const funcionForma = (datos) => {
     console.log(datos)
+    //let config = {'Authorization': props.login.jwt}
+    axios.post('https://blog-api-u.herokuapp.com/v1/posts',
+      {
+        post: {
+          title: datos.nombre,
+          body:datos.dirigido
+        }
+      }
+      // ,{
+      //   headers: config
+      // }
+    )
+      .then(res=>{
+        console.log(res);
+
+      })
+      .catch(err=>{
+        console.log(err);
+      })
   }
-  return(
-  <main>
-    <section className="container">
-      <EnviarIdeaForm onSubmit={funcionForma} />
-    </section>
-  </main>
-)
-}
-
-const SubirIdea = () => {
   return (
-    <div>
-      <Header />
-      <Main />
-      <Footer />
-  </div>
-      )
+    <main>
+      <section className="container">
+        <EnviarIdeaForm onSubmit={funcionForma} />
+      </section>
+    </main>
+  )
 }
 
-export default SubirIdea;
+class SubirIdea extends Component {
+
+  render() {
+    return (
+      <div>
+        <Header />
+        <Main />
+        <Footer />
+      </div>
+    )
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+
+  }
+}
+
+const mapStateToProps = (state) => {
+  return {
+
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SubirIdea);

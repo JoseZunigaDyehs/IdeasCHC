@@ -68,13 +68,13 @@ const renderField = ({
   )
 
 const renderSelect = ({
-    input,
+  input,
   label,
   type,
   sublabel,
   placeholder,
   meta: { touched, error, warning }
-  }) => (
+}) => (
     <div className="input-group-lg mb-4">
       <label className="d-flex flex-column">{label}
         <small className="c-gris mb-2">{sublabel}</small>
@@ -89,13 +89,13 @@ const renderSelect = ({
   )
 
 const renderTextarea = ({
-    input,
+  input,
   label,
   type,
   sublabel,
   placeholder,
   meta: { touched, error, warning }
-  }) => (
+}) => (
 
     <div className="input-group-lg mb-4">
       <label className="d-flex flex-column">{label}
