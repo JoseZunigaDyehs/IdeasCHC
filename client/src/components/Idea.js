@@ -1,4 +1,5 @@
 import React from 'react'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
 const Idea = ({ idea }) => (
 
@@ -16,9 +17,9 @@ const Idea = ({ idea }) => (
             <h5 className="f-w-900 mb-0">16</h5>
           </div>
         </div>
-        <a href="idea" className="link-pri">Leer Más
-                <i className="fas fa-arrow-right"></i>
-        </a>
+        <Link className="link-pri" to={`/idea/${idea.id}`} key={idea.id}>
+          Leer Más<i className="fas fa-arrow-right"></i>
+        </Link>
       </div>
     </div>
   </div>

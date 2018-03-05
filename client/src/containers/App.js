@@ -56,7 +56,7 @@ const App = (props) => {
         <div>
           <Header />
           <Route exact path='/' component={HomeContainer} />
-          <Route path='/idea/:id' component={Idea} />
+          <Route exact path='/idea/:id' component={Idea} />
           <Route path='/subir-idea' component={SubirIdea}/>
           <Route path='/login' component={Login} />
           <Route path='/singup' component={Singup} />

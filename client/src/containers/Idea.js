@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { Component } from 'react'
 import Footer from '../components/shared/Footer'
 import IdeaAportar from '../components/shared/IdeaAportar'
+import { connect } from 'react-redux'
 
 const Header = () => (
   <header className='pt-5'>
@@ -57,37 +58,37 @@ const Aside = () => (
 
 const IdeaDiv = () => (
   <div className="col-md-6 mb-4">
-  <div className="dvIdea d-flex">
-    <div className="dvIdeaCategoria">
-      <p className="m-0 text-uppercase">COMPRADORES</p>
-    </div>
-    <div className="dvIdeaBody w-100 py-3 d-flex flex-column px-4 justify-content-between">
-      <p className="mb-0 text-small text-uppercase text-right">12 Febrero 2018</p>
-      <div className="d-flex justify-content-between align-items-center">
-        <p className="w-90 mb-1">Es un hecho establecido hace demasiado tiempo que un lector se distraerá con el contenido del texto de un
-          sitio mientras que mira su diseño. </p>
-        <div className="d-flex c-gris align-items-center">
-          <i className="far fa-thumbs-up mr-1"></i>
-          <h5 className="f-w-900 mb-0">16</h5>
-        </div>
+    <div className="dvIdea d-flex">
+      <div className="dvIdeaCategoria">
+        <p className="m-0 text-uppercase">COMPRADORES</p>
       </div>
-      <a href="idea.html" className="link-pri">Leer Más
+      <div className="dvIdeaBody w-100 py-3 d-flex flex-column px-4 justify-content-between">
+        <p className="mb-0 text-small text-uppercase text-right">12 Febrero 2018</p>
+        <div className="d-flex justify-content-between align-items-center">
+          <p className="w-90 mb-1">Es un hecho establecido hace demasiado tiempo que un lector se distraerá con el contenido del texto de un
+          sitio mientras que mira su diseño. </p>
+          <div className="d-flex c-gris align-items-center">
+            <i className="far fa-thumbs-up mr-1"></i>
+            <h5 className="f-w-900 mb-0">16</h5>
+          </div>
+        </div>
+        <a href="idea.html" className="link-pri">Leer Más
         <i className="fas fa-arrow-right"></i>
-      </a>
+        </a>
+      </div>
     </div>
   </div>
-</div>
 )
 
 const Ideas = () => (
   <section className="container mb-5">
-  <div className="text-center pt-3 pb-4">
-    <h2>Otras ideas que podrían gustarte</h2>
-  </div>
-  <div className="row pt-3">
-    <IdeaDiv />
-  </div>
-</section>
+    <div className="text-center pt-3 pb-4">
+      <h2>Otras ideas que podrían gustarte</h2>
+    </div>
+    <div className="row pt-3">
+      <IdeaDiv />
+    </div>
+  </section>
 )
 
 const Main = () => (
@@ -114,16 +115,40 @@ const Main = () => (
   </section>
 )
 
-const Idea = () => (
-  <div>
-    <Header />
-    <main>
-      <Main />
-      <Ideas />
-      <IdeaAportar />
-    </main>
-    <Footer />
-  </div>
-)
+class Idea extends Component {
 
-export default Idea
+  componentDidMount(){
+    this.props.dispat()
+  }
+
+  render() {
+    return (
+      <div>
+        <Header />
+        <main>
+          <Main />
+          <Ideas />
+          <IdeaAportar />
+        </main>
+        <Footer />
+      </div>
+    )
+  }
+}
+
+
+const mapStateToProps = (state) => {
+  return {
+    login: state.login
+  }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    dispat: () => {
+      console.log(ownProps);
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Idea)
