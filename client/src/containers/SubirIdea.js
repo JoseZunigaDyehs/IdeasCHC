@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import Footer from '../components/shared/Footer'
 import EnviarIdeaForm from '../components/forms/EnviarIdeaForm'
 import axios from 'axios'
+import { reset } from 'redux-form'
 
 const Header = () => (
   <header className='pt-5'>
@@ -14,15 +15,14 @@ const Header = () => (
 )
 
 const Main = (props) => {
+  console.log(props);
   const funcionForma = (datos) => {
-    console.log('pooooo',datos)
-    console.log(props);
-    let config = {'Authorization': 'Bearer' + props.login.jwt }//props.login.jwt}
+    let config = {'Authorization': 'Bearer' + props.props.login.jwt }
     axios.post('https://blog-api-u.herokuapp.com/v1/posts',
       {
         post: {
           title: datos.nombre,
-          body:datos.dirigido
+          body:datos.descripcion
         }
       }
       ,{
@@ -30,11 +30,12 @@ const Main = (props) => {
       }
     )
       .then(res=>{
-        console.log(res);
-
+        console.log(res)
+        props.props.creado()
       })
       .catch(err=>{
-        console.log(err);
+        console.log(err)
+        props.props.error()
       })
   }
   return (
@@ -52,7 +53,8 @@ class SubirIdea extends Component {
     return (
       <div>
         <Header />
-        <Main />
+        <h3>{this.props.mensaje}</h3>
+        <Main props={this.props}/>
         <Footer />
       </div>
     )
@@ -61,14 +63,19 @@ class SubirIdea extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    login: state.login
+    login: state.login,
+    mensaje : state.creado
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    create: ()=>{
+    creado: ()=>{
       dispatch({type: 'CREATED_'})
+      dispatch(reset('EnviarIdeaForm'))
+    },
+    error: () => {
+      dispatch({type: 'ERROR_CREATED_'})
     }
   }
 }

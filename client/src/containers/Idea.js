@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Footer from '../components/shared/Footer'
 import IdeaAportar from '../components/shared/IdeaAportar'
 import { connect } from 'react-redux'
+import axios from 'axios'
 
 const Header = () => (
   <header className='pt-5'>
@@ -12,34 +13,36 @@ const Header = () => (
   </header>
 )
 
-const Article = () => (
-  <article>
-    <p className="m-0 c-gris fnt-14 text-right text-uppercase f-w-500">21 de febrero de 2018</p>
-    <h2 className="my-3">Lorem ipsum dolor sit amet consectetur adipisicing elit.</h2>
-    <div className="d-flex align-items-center mb-4">
-      <div className="img-red mr-4 ml-2 back-gris rounded-circle"></div>
-      <div className="d-flex flex-column">
-        <p className="m-0 c-gris fnt-14 text-uppercase f-w-500">POR:</p>
-        <p className="m-0 c-gris fnt-14 text-uppercase f-w-500">clemencia catalán comprador</p>
-      </div>
-    </div>
-    <p>Hola a todos!
-    <br />
-      <br /> Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam
-    eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet
-    adipiscing sem neque sed ipsum.
-    <br />
-      <br />Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem
-    aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-    <br /> Idest laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore,
-    cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere</p>
+const Article = (props) => {
+  if(props.post.error == ''){
+    return (
+      <article>
+        <p className="m-0 c-gris fnt-14 text-right text-uppercase f-w-500">{props.post.post.created_at}</p>
+        <h2 className="my-3">{props.post.post.title}</h2>
+        <div className="d-flex align-items-center mb-4">
+          <div className="img-red mr-4 ml-2 back-gris rounded-circle"></div>
+          <div className="d-flex flex-column">
+            <p className="m-0 c-gris fnt-14 text-uppercase f-w-500">POR:</p>
+            <p className="m-0 c-gris fnt-14 text-uppercase f-w-500">clemencia catalán comprador</p>
+          </div>
+        </div>
+        <p>{props.post.post.body}</p>
+  
+        <div className="back-gris-claro c-pink d-flex align-items-center py-3 px-4 my-5">
+          <h3 className="f-w-900 mb-0 mr-3">23</h3>
+          <h4 className="f-w-300 mb-0">Personas han apoyado esta idea</h4>
+        </div>
+      </article>
+    )
+  }else{
+    return (
+      <article>
+        <h1>{props.post.error}</h1>
+      </article>
+    )
+  }
 
-    <div className="back-gris-claro c-pink d-flex align-items-center py-3 px-4 my-5">
-      <h3 className="f-w-900 mb-0 mr-3">23</h3>
-      <h4 className="f-w-300 mb-0">Personas han apoyado esta idea</h4>
-    </div>
-  </article>
-)
+}
 
 const Aside = () => (
   <aside className="col-md-5">
@@ -91,34 +94,45 @@ const Ideas = () => (
   </section>
 )
 
-const Main = () => (
-  <section className="container">
-    <div className="row justify-content-center py-3">
-      <div className="col-md-7 d-flex flex-column">
-        <Article />
-        <hr className="linea-black w-100" />
-        <div className="comentariosIdea mb-5">
-          <div className="d-flex my-3">
-            <h2>Comentarios</h2>
-            <h2 className="c-pink ml-3">(0)</h2>
-          </div>
-          <p>Regístrate o ingresa para ayudar a Clamencia Catalán a mejorar su propuesta.</p>
-          <textarea className="w-100" name="" id="" cols="30" rows="10"></textarea>
-          <div className="w-100 text-right">
-            <button className="btn btn-secondary py-3 px-5 mt-4 text-right">COMENTAR</button>
+const Main = (props) => {
+  return (
+    <section className="container">
+      <div className="row justify-content-center py-3">
+        <div className="col-md-7 d-flex flex-column">
+          <Article post={props.post} />
+          <hr className="linea-black w-100" />
+          <div className="comentariosIdea mb-5">
+            <div className="d-flex my-3">
+              <h2>Comentarios</h2>
+              <h2 className="c-pink ml-3">(0)</h2>
+            </div>
+            <p>Regístrate o ingresa para ayudar a Clamencia Catalán a mejorar su propuesta.</p>
+            <textarea className="w-100" name="" id="" cols="30" rows="10"></textarea>
+            <div className="w-100 text-right">
+              <button className="btn btn-secondary py-3 px-5 mt-4 text-right">COMENTAR</button>
+            </div>
           </div>
         </div>
+        <Aside />
       </div>
-      <Aside />
-    </div>
-    <hr className="linea-black" />
-  </section>
-)
+      <hr className="linea-black" />
+    </section>
+  )
+}
 
 class Idea extends Component {
 
-  componentDidMount(){
-    this.props.dispat()
+  componentDidMount() {
+    this.props.getPost()
+  }
+
+  componentWillMount() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  }
+
+  componentWillUnmount(){
+    this.props.clear()
   }
 
   render() {
@@ -126,7 +140,7 @@ class Idea extends Component {
       <div>
         <Header />
         <main>
-          <Main />
+          <Main post={this.props} />
           <Ideas />
           <IdeaAportar />
         </main>
@@ -139,14 +153,27 @@ class Idea extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    login: state.login
+    post: state.showPost,
+    error: state.errorShowPost
   }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    dispat: () => {
-      console.log(ownProps);
+    getPost: () => {
+      let idPost = parseInt(ownProps.match.params.id);
+      axios.get(`https://blog-api-u.herokuapp.com/v1/posts/${idPost}`)
+        .then(res => {
+          dispatch({ type: "GET_POST", data: res.data })
+          dispatch({type:'CLEAR_ERROR_GET_POST'})
+        })
+        .catch(err => {
+          console.log(err)
+          dispatch({type: 'ERROR_GET_POST'})
+        })
+    },
+    clear: () => {
+      dispatch({type:'CLEAR_POST'})
     }
   }
 }

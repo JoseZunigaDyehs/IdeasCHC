@@ -1,11 +1,14 @@
 import { combineReducers } from 'redux'
 import { reducer as formReducer } from 'redux-form'
-import { allPost } from './ideasReducer'
+import { allPost, showPost, errorShowPost, creado } from './ideasReducer'
 import { session, userCreated } from './session'
 
 export default combineReducers({
   allPost: allPost,
   form: formReducer,
   login: session,
-  statusUser: userCreated
+  statusUser: userCreated,
+  showPost: showPost,
+  errorShowPost: errorShowPost,
+  creado: creado
 })

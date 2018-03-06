@@ -28,10 +28,10 @@ const validate = values => {
   }
   if (!values.descripcion) {
     errors.descripcion = 'Requerido'
-  } else if (values.descripcion.length < 5) {
-    errors.descripcion = 'Minimo 5 letras'
-  } else if (values.descripcion.length > 15) {
-    errors.descripcion = 'No puede ser mayor a 15 letras'
+  } else if (values.descripcion.length < 50) {
+    errors.descripcion = 'Minimo 50 letras'
+  } else if (values.descripcion.length > 150) {
+    errors.descripcion = 'No puede ser mayor a 150 letras'
   }
   if (!values.dirigido) {
     errors.dirigido = 'Requerido'

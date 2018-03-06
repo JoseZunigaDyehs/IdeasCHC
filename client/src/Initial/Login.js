@@ -16,6 +16,7 @@ const Login = (props) => {
     }
     )
       .then((res) => {
+        console.log(res.data);
         props.login(res.data)
       })
       .catch(err => {

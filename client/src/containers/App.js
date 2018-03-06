@@ -14,7 +14,6 @@ const Header = () => {
     <nav className='w-100 text-center'>
       <div className='d-flex w-100 justify-content-between px-5 py-2 text-uppercase'>
         <Link to='/' className='c-white f-w-500 fnt-14 link-sec'>Home</Link>
-        <Link to='/idea/:id' className='c-white f-w-500 fnt-14 link-sec'>Idea</Link>
         <Link to='/singup' className='c-white f-w-500 fnt-14 link-sec'>SING UP</Link>
         <Link to='/login' className='c-white f-w-500 fnt-14 link-sec'>LOGIN</Link>
       </div>
@@ -27,7 +26,6 @@ const HeaderLogeado = () => {
     <nav className='w-100 text-center'>
       <div className='d-flex w-100 justify-content-between px-5 py-2 text-uppercase'>
         <Link to='/' className='c-white f-w-500 fnt-14 link-sec'>Home</Link>
-        <Link to='/idea/:id' className='c-white f-w-500 fnt-14 link-sec'>Idea</Link>
         <Link to='/subir-idea' className='c-white f-w-500 fnt-14 link-sec'>Subir Idea</Link>
         <Link to='/' className='c-white f-w-500 fnt-14 link-sec'>Cerrar sesion</Link>
       </div>
