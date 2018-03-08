@@ -30,8 +30,8 @@ const validate = values => {
     errors.descripcion = 'Requerido'
   } else if (values.descripcion.length < 50) {
     errors.descripcion = 'Minimo 50 letras'
-  } else if (values.descripcion.length > 150) {
-    errors.descripcion = 'No puede ser mayor a 150 letras'
+  } else if (values.descripcion.length > 300) {
+    errors.descripcion = 'No puede ser mayor a 300 letras'
   }
   if (!values.dirigido) {
     errors.dirigido = 'Requerido'

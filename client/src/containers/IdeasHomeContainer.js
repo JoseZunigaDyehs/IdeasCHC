@@ -6,11 +6,11 @@ import IdeasList from '../components/IdeasList'
 class IdeasHomeContainer extends Component {
 
   componentDidMount = () => {
-    document.getElementById('allPost').innerHTML = '<i class="fas fa-spinner"></i>';
     if(this.props.login == null){
       this.props.getAllPosts();
     }else{
-      this.props.getAllPostsUser(this.props.login.id, this.props.login.jwt);
+      this.props.getAllPosts();
+      //this.props.getAllPostsUser(this.props.login.id, this.props.login.jwt);
     }
   };
   componentWillUnmount() {
@@ -25,7 +25,6 @@ class IdeasHomeContainer extends Component {
   render() {
     return (
       <div>
-        <div id="allPost" className="text-center"></div>
         {this.allPosts()}
       </div>
     );
@@ -37,7 +36,8 @@ class IdeasHomeContainer extends Component {
 const mapStateToProps = (state) => {
   return {
     allPosts: state.allPost,
-    login: state.login
+    login: state.login,
+    spinnerStatus: state.spinnerStatus
   }
 }
 
@@ -45,21 +45,20 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getAllPostsUser: (user_id, token) => {
+      dispatch({type: 'ON_SPINNER'})
       let config = {'Authorization': 'Bearer' + token }
       axios.get(`https://blog-api-u.herokuapp.com/users/${user_id}/posts`, {headers: config})
         .then((res) => {
           dispatch({ type: "DATA_LOADER", data: res.data.posts });
-          document.getElementById('allPost').innerHTML = '';
         })
         .catch((err) => {
           console.log(err);
         })
     },
     getAllPosts: () => {
-      axios.get(`https://blog-api-u.herokuapp.com/v1/posts`)
+      axios.get(`http://10.0.1.1:8000/ideas/`)
         .then((res) => {
           dispatch({ type: "DATA_LOADER", data: res.data });
-          document.getElementById('allPost').innerHTML = '';
         })
         .catch((err) => {
           console.log(err);

@@ -1,18 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import Footer from '../components/shared/Footer'
 import EnviarIdeaForm from '../components/forms/EnviarIdeaForm'
 import axios from 'axios'
 import { reset } from 'redux-form'
 
-const Header = () => (
-  <header className='pt-5'>
-    {/* <div className="btn-back d-flex py-3 justify-content-center mt-3" onClick={window.history.back}>
-      <i className="fas fa-arrow-left"></i>
-      <p className="mb-0 ml-3 f-w-500">VOLVER</p>
-    </div> */}
-  </header>
-)
 
 const Main = (props) => {
   console.log(props);
@@ -49,14 +40,17 @@ const Main = (props) => {
 
 class SubirIdea extends Component {
 
+  componentWillMount() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  }
+
   render() {
     return (
-      <div>
-        <Header />
+      <main>
         <h3>{this.props.mensaje}</h3>
         <Main props={this.props}/>
-        <Footer />
-      </div>
+      </main>
     )
   }
 }

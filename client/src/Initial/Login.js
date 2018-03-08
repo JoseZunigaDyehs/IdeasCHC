@@ -16,8 +16,13 @@ const Login = (props) => {
     }
     )
       .then((res) => {
-        console.log(res.data);
+        console.log(res.data)
+        debugger;
         props.login(res.data)
+        let linkHome = document.getElementById('home')
+        let evObj = document.createEvent('Events');
+        evObj.initEvent('click', true, false);
+        linkHome.dispatchEvent(evObj);
       })
       .catch(err => {
         console.log(err)

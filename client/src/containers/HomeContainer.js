@@ -1,42 +1,59 @@
-import React from 'react'
+import React, { Component } from 'react'
 import IdeasHomeContainer from './IdeasHomeContainer'
 import IdeaAportar from '../components/shared/IdeaAportar'
-import Footer from '../components/shared/Footer'
-// import CartContainer from './CartContainer'
+import { connect } from 'react-redux'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import axios from 'axios'
 
-const Header = () => (
-  <header className="container pt-5">
-    <div className="row align-items-center pt-5 pb-3 flex-column">
-      <div className="pb-5">
-        <img src="./assets/img//LogoMP2.png" alt="ChileCompra MercadoPúblico" />
-      </div>
-      <div className="d-flex flex-column col-md-7 text-center">
+const TextoMain = () => (
+  <div className='container'>
+    <div className='row justify-content-center'>
+      <div className="d-flex flex-column col-md-7 text-center pt-5">
         <h1>Nuevas ideas para Mercado Público</h1>
-        <p>Te proponemos un espacio de conversación sobre mejoras e ideas para que juntos, podamos mejorar la forma de comprar
-            y vender en el Estado.</p>
+        <p>Te proponemos un espacio de conversación sobre mejoras e ideas para que juntos, podamos mejorar la forma de comprar y vender en el Estado.</p>
       </div>
     </div>
-  </header>
+  </div>
 )
 
-const Estadisticas = () => (
-  <section>
-    <hr className="linea-black" />
-    <div className="container">
-      <div className="row justify-content-center py-3">
-        <div className="col-md-3 col-6">
-          <p className="mb-0">TOTAL PARTICIPANTES</p>
-          <p className="f-w-900 mb-0">23.980</p>
+const Estadisticas = (props) => {
+  return (
+    <section>
+      <hr className="linea-black" />
+      <div className="container">
+        <div className="row justify-content-center py-3">
+          <div className="col-md-3 col-6">
+            <p className="mb-0">TOTAL PARTICIPANTES</p>
+            <p className="f-w-900 mb-0">{props.props.countUsers}</p>
+          </div>
+          <div className="col-md-2 col-6">
+            <p className="mb-0">IDEAS ACTIVAS</p>
+            <p className="f-w-900 mb-0">{props.props.countIdeas}</p>
+          </div>
         </div>
-        <div className="col-md-2 col-6">
-          <p className="mb-0">IDEAS ACTIVAS</p>
-          <p className="f-w-900 mb-0">128</p>
-        </div>
+        <BotonPublicar login={props.login} />
       </div>
-    </div>
-    <hr className="linea-black" />
-  </section>
-)
+      <hr className="linea-black" />
+    </section>
+  )
+}
+
+const BotonPublicar = (props) => {
+  if (props.login != null) {
+    return (
+      <div className="text-center pb-3">
+        <Link to='subir-idea' className="btn btn-secondary px-5 py-3">
+          PUBLICAR UNA IDEA
+       <i className="ml-2 fas fa-arrow-right"></i>
+        </Link>
+      </div>
+    )
+  } else {
+    return (
+      <div></div>
+    )
+  }
+}
 
 const Categorias = () => (
   <section className="container my-5">
@@ -66,17 +83,58 @@ const Categorias = () => (
   </section>
 )
 
-const HomeContainer = () => (
-  <div>
-    <Header />
-    <main>
-      <Estadisticas />
-      <IdeasHomeContainer />
-      <Categorias />
-      <IdeaAportar />
-    </main>
-    <Footer />
-  </div>
-)
+class HomeContainer extends Component {
 
-export default HomeContainer
+  componentWillMount() {
+    this.props.getCountIdeas()
+    this.props.getCountUsers()
+  }
+
+  render() {
+    return (
+      <main>
+        <TextoMain />
+        <Estadisticas props={this.props} />
+        <IdeasHomeContainer />
+        <IdeaAportar />
+      </main >
+    )
+  }
+}
+
+const mapStateToProps = (state) => {
+  return {
+    countIdeas: state.countIdeas,
+    countUsers: state.countUsers
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getCountIdeas: () => {
+      axios.get('http://10.0.1.1:8000/ideas/count/')
+        .then(res => {
+          console.log(res.data.ideas_count);
+          dispatch({ type: 'COUNT_IDEAS' , data: res.data.ideas_count })
+        })
+        .catch(err => {
+          console.log(err);
+        })
+    },
+    clear: () => {
+      dispatch('CLEAR_COUNT_IDEAS')
+      dispatch('CLEAR_COUNT_USERS')
+    },
+    getCountUsers: () => {
+      axios.get('http://10.0.1.1:8000/users/count/')
+        .then(res => {
+          dispatch({ type: 'COUNT_USERS' , data: res.data.users_count })
+        })
+        .catch(err => {
+          console.log(err);
+        })
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeContainer)
