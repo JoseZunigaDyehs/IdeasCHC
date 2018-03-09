@@ -99,7 +99,7 @@ const Main = (props) => {
           <Article post={props.post} />
           {/* <Comentarios /> */}
         </div>
-        {/* <ApoyarIdea post={props.post}/> */}
+        {/*    */}
       </div>
       <hr className="linea-black" />
     </section>
