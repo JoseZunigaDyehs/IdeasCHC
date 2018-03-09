@@ -53,17 +53,16 @@ const fechaCorrecta = (fecha) => {
 }
 
 const pintarCategoria = (categoria) => {
-  debugger;
   let clase = 'dvIdeaCategoria d-flex justify-content-center align-items-center ';
   switch (categoria) {
     case 1: //Plataforma
-      clase = clase + 'bg-rosa'
+      clase = clase + 'bg-naranja'
       break;
     case 2: //Normativa ===== Innovacion
       clase = clase + 'bg-azul'
       break;
     case 3: //CM ====== Fomento Pymes
-      clase = clase + 'bg-naranja'
+      clase = clase + 'bg-rosa'
       break;
 
     default:

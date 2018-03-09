@@ -114,7 +114,7 @@ const EnviarIdeaForm = props => {
     <form onSubmit={handleSubmit}>
       <div className="row justify-content-start py-3">
         <div className="col-md-6 d-flex flex-column">
-          <h2 className="mt-2 mb-4">Subir tu idea</h2>
+          <h2 className="mt-2 mb-4">Compártenos tu idea</h2>
           <Field name="nombre" type="text" component={renderField} label="¿Cuál es el nombre de tu idea?" placeholder="Nombre" sublabel="Define un nombre atractivo que resuma el objetivo principal" />
           <Field name="descripcion" type="text" component={renderTextarea} label="¿En qué consiste tu idea?" sublabel="Describe el detalle de tu idea. ¿Cuál es el problema que quieres solucionar?" />
           <Field name="dirigido" type="text" component={renderField} label="¿A quién está dirigido?" placeholder="Usuario objetivo" sublabel="Describe quién será el principal usuario de tu solución" />

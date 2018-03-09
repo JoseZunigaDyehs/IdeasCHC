@@ -114,7 +114,6 @@ const mapDispatchToProps = (dispatch) => {
     getCountIdeas: () => {
       axios.get('http://10.0.1.1:8000/ideas/count/')
         .then(res => {
-          console.log(res.data.ideas_count);
           dispatch({ type: 'COUNT_IDEAS' , data: res.data.ideas_count })
         })
         .catch(err => {

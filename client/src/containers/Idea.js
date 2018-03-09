@@ -99,7 +99,7 @@ const Main = (props) => {
           <Article post={props.post} />
           {/* <Comentarios /> */}
         </div>
-        <ApoyarIdea/>
+        {/* <ApoyarIdea post={props.post}/> */}
       </div>
       <hr className="linea-black" />
     </section>
@@ -128,7 +128,7 @@ class Idea extends Component {
         <main>
           <Main post={this.props} />
           <Ideas />
-          <IdeaAportar />
+          <IdeaAportar/>
         </main>
       )
     } else {

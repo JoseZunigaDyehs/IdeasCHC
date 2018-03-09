@@ -4,7 +4,8 @@ export const allPost = (state = [], action) => {
 
   switch (action.type) {
     case 'DATA_LOADER':
-      nuevoEstado = state.concat(action.data);
+      debugger;
+      nuevoEstado = state.concat(action.data.results);
       return nuevoEstado;
     case 'DATA_CLEAR':
       nuevoEstado = [];
@@ -56,6 +57,22 @@ export const errorShowPost = (state = '', action) => {
       return nuevoEstado
     case 'CLEAR_ERROR_GET_POST':
       nuevoEstado = ''
+      return nuevoEstado
+    default:
+      return state
+  }
+
+}
+
+export const paginador = (state = 0, action) => {
+  var nuevoEstado = Object.assign({}, state)
+
+  switch (action.type) {
+    case 'PAGINADOR':
+      nuevoEstado = action.data
+      return nuevoEstado
+    case 'CLEAR_PAGINADOR':
+      nuevoEstado = 0
       return nuevoEstado
     default:
       return state

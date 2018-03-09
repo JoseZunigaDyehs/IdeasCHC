@@ -21,6 +21,7 @@ class IdeasHomeContainer extends Component {
   allPosts = () => {
     return <IdeasList ideas={this.props.allPosts} />;
   }
+  
 
   render() {
     return (
@@ -59,6 +60,7 @@ const mapDispatchToProps = (dispatch) => {
       axios.get(`http://10.0.1.1:8000/ideas/`)
         .then((res) => {
           dispatch({ type: "DATA_LOADER", data: res.data });
+          document.getElementsByClassName('todas')['0'].classList.add('active')
         })
         .catch((err) => {
           console.log(err);

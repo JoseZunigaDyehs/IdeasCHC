@@ -99,11 +99,11 @@ h2 {
     /* //text-decoration: none; */
 }
 
-.link-tri{
+.link-tri {
     color: #737f85;
 }
 
-.link-tri:hover{
+.link-tri:hover {
     text-decoration: none;
     color: #ec495c;
 }
@@ -115,7 +115,6 @@ h2 {
     -webkit-transition: all 400ms ease;
     transition: all 400ms ease;
 }
-
 
 /*Utilidades*/
 
@@ -135,7 +134,7 @@ h2 {
     font-weight: 900;
 }
 
-.f-w-700{
+.f-w-700 {
     font-weight: 700;
 }
 
@@ -159,7 +158,7 @@ h2 {
     font-size: 24px;
 }
 
-.l-s-1{
+.l-s-1 {
     letter-spacing: 1px;
 }
 
@@ -180,13 +179,15 @@ h2 {
     cursor: pointer;
 }
 
-.bg-rosa{
+.bg-rosa {
     background-color: #ec495b;
 }
-.bg-naranja{
+
+.bg-naranja {
     background-color: #ec8d4e;
 }
-.bg-azul{
+
+.bg-azul {
     background-color: #737f85;
 }
 
@@ -214,18 +215,25 @@ h2 {
     color: #fff;
 }
 
-
 /*FUENTES*/
-
 
 /* .arrow-pink {
   background-image: url(../fonts/arrow-pink.svg);
 } */
 
-
 /*IDEAS HOME*/
 
-.spinner{
+header {
+    position: fixed;
+    background-color: #fff;
+    z-index: 100;
+}
+
+main{
+    padding-top: 3em;
+}
+
+.spinner {
     width: 100%;
     height: 100vh;
     background: #e6e6e6;
@@ -233,23 +241,44 @@ h2 {
     position: fixed;
 }
 
-.spinner .fa-spinner{
+.spinner .fa-spinner {
     font-size: 2em;
 }
 
-.img-nav img{
+.img-nav img {
     height: 40px;
 }
 
-.nav-home{
+.nav-home {
     position: absolute;
     top: 3%;
     width: 100%;
     z-index: -10;
 }
 
-.disabled{
+.disabled {
     color: #252525;
+}
+
+.filtros img {
+    height: 42px;
+}
+
+.filtros p {
+    margin: 0;
+}
+
+.filtros:hover {
+    cursor: pointer;
+    -webkit-box-shadow: 0px 3px 7px 0px rgba(179, 179, 179, 1);
+    -moz-box-shadow: 0px 3px 7px 0px rgba(179, 179, 179, 1);
+    box-shadow: 0px 3px 7px 0px rgba(179, 179, 179, 1);
+}
+.filtros.active {
+    cursor: pointer;
+    -webkit-box-shadow: 0px 3px 7px 0px rgba(179, 179, 179, 1);
+    -moz-box-shadow: 0px 3px 7px 0px rgba(179, 179, 179, 1);
+    box-shadow: 0px 3px 7px 0px rgba(179, 179, 179, 1);
 }
 
 .dvIdea {
@@ -308,7 +337,6 @@ footer p {
     margin-bottom: 0;
 }
 
-
 /*IDEA PAGINA*/
 
 .top {
@@ -344,7 +372,6 @@ footer p {
     height: 40px;
 }
 
-
 /*SUBIR IDEA*/
 
 .form-control {
@@ -356,15 +383,34 @@ footer p {
     color: #757575;
 }
 
-.fa-spinner{
-    -webkit-animation:spin 4s linear infinite;
-    -moz-animation:spin 4s linear infinite;
-    animation:spin 4s linear infinite;
+.fa-spinner {
+    -webkit-animation: spin 4s linear infinite;
+    -moz-animation: spin 4s linear infinite;
+    animation: spin 4s linear infinite;
 }
 
-@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
-@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
-@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+.img-footer {
+    height: 90px;
+}
+
+@-moz-keyframes spin {
+    100% {
+        -moz-transform: rotate(360deg);
+    }
+}
+
+@-webkit-keyframes spin {
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
 
 /*RESPONSIVE*/
 
