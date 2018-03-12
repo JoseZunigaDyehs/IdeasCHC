@@ -9,7 +9,7 @@ const TextoMain = () => (
   <div className='container'>
     <div className='row justify-content-center'>
       <div className="d-flex flex-column col-md-7 text-center pt-5">
-        <h1>Nuevas ideas para Mercado Público</h1>
+        <h1>¿Tienes una idea para mejorar Mercado Público?</h1>
         <p>Te proponemos un espacio de conversación sobre mejoras e ideas para que juntos, podamos mejorar la forma de comprar y vender en el Estado.</p>
       </div>
     </div>
@@ -114,7 +114,7 @@ const mapDispatchToProps = (dispatch) => {
     getCountIdeas: () => {
       axios.get('http://10.0.1.1:8000/ideas/count/')
         .then(res => {
-          dispatch({ type: 'COUNT_IDEAS' , data: res.data.ideas_count })
+          dispatch({ type: 'COUNT_IDEAS', data: res.data.ideas_count })
         })
         .catch(err => {
           console.log(err);
@@ -127,7 +127,7 @@ const mapDispatchToProps = (dispatch) => {
     getCountUsers: () => {
       axios.get('http://10.0.1.1:8000/users/count/')
         .then(res => {
-          dispatch({ type: 'COUNT_USERS' , data: res.data.users_count })
+          dispatch({ type: 'COUNT_USERS', data: res.data.users_count })
         })
         .catch(err => {
           console.log(err);

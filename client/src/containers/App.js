@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'
 import '../style.css'
 import logo from '../LogoMP2.png'
@@ -7,17 +7,16 @@ import { connect } from 'react-redux'
 import HomeContainer from './HomeContainer'
 import Idea from './Idea'
 import SubirIdea from './SubirIdea'
-import Login from '../Initial/Login'
-import Singup from '../Initial/Signup'
 import Footer from '../components/shared/Footer'
-import LoginGoogle from '../Initial/LoginGoogle'
 import Spinner from '../components/shared/Spinner'
+import SocialButton from '../components/SocialButton'
 
-const btnDisable = (event) => {
+const Header = (props) => {
+  
+  const handleSocialLogin = (user) => {
+    props.props.logeo(user._profile);
+  }
 
-}
-
-const Header = () => {
   return (
     <header className="container-fluid">
       <nav className='w-100 text-center text-uppercase px-5 py-3 d-flex'>
@@ -25,7 +24,15 @@ const Header = () => {
           {/* <Link to='/singup' className='f-w-500 fnt-14 link-pri'>SING UP</Link> */}
           <Link to='#' className='f-w-500 fnt-12 link-pri disabled'>comparte tu Idea</Link>
           <Link to='/' id='home' className='img-nav'><img src={logo} alt="ChileCompra MercadoPúblico" /></Link>
-          <Link to='/login' className='btn btn-primary f-w-500 fnt-12 d-flex align-items-center px-3 py-2'>INGRESAR</Link>
+          <SocialButton
+            provider='google'
+            appId='178848131764-l6f61h1flr9rkqsilspj2ipc0bp00f1t.apps.googleusercontent.com'
+            onLoginSuccess={handleSocialLogin}
+            onLoginFailure={handleSocialLoginFailure}
+            className='btn btn-primary f-w-500 fnt-12 d-flex align-items-center px-3 py-2'
+          >
+            INGRESAR
+          </SocialButton>
         </div>
       </nav>
     </header>
@@ -34,6 +41,7 @@ const Header = () => {
 
 
 const HeaderLogeado = () => {
+
   return (
     <header className="container-fluid">
       <nav className='w-100 text-center text-uppercase px-5 py-3 d-flex'>
@@ -41,16 +49,21 @@ const HeaderLogeado = () => {
           {/* <Link to='/singup' className='f-w-500 fnt-14 link-pri'>SING UP</Link> */}
           <Link to='/subir-idea' className='f-w-500 fnt-12 link-pri' >comparte tu Idea</Link>
           <Link to='/' id='home' className='img-nav'><img src={logo} alt="ChileCompra MercadoPúblico" /></Link>
-          <Link to='/cerrar-sesion' className='btn btn-primary f-w-500 fnt-12 d-flex align-items-center px-3 py-2'>SALIR</Link>
+          <a href='/' className='btn btn-primary f-w-500 fnt-12 d-flex align-items-center px-3 py-2'>SALIR</a>
         </div>
       </nav>
     </header>
   )
 }
 
+//LOGIN
+
+const handleSocialLoginFailure = (err) => {
+  console.error(err)
+}
+// FIN LOGIN
 
 const App = (props) => {
-
   if (props.login != null) {
     return (
       <Router>
@@ -60,8 +73,6 @@ const App = (props) => {
           <Route exact path='/' component={HomeContainer} />
           <Route path='/ideas/:id' component={Idea} />
           <Route path='/subir-idea' component={SubirIdea} />
-          <Route path='/login' component={Login} />
-          <Route path='/singup' component={Singup} />
           <Footer />
         </div>
       </Router>
@@ -71,12 +82,10 @@ const App = (props) => {
       <Router>
         <div>
           <Spinner />
-          <Header />
+          <Header props={props}/>
           <Route exact path='/' component={HomeContainer} />
           <Route exact path='/ideas/:id' component={Idea} />
           <Route path='/subir-idea' component={SubirIdea} />
-          <Route path='/login' component={Login} />
-          <Route path='/singup' component={Singup} />
           <Footer />
         </div>
       </Router>
@@ -84,6 +93,7 @@ const App = (props) => {
   }
 
 }
+
 
 const mapStateToProps = (state) => {
   return {
@@ -93,7 +103,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-
+    logeo: (datos) => {
+      dispatch({ type: 'LOGIN', data: datos })
+    },
+    errorLogin: (err) => {
+      dispatch({ type: 'LOGIN_ERROR', data: err })
+    }
   }
 }
 
