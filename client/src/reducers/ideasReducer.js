@@ -4,7 +4,6 @@ export const allPost = (state = [], action) => {
 
   switch (action.type) {
     case 'DATA_LOADER':
-      debugger;
       nuevoEstado = state.concat(action.data.results);
       return nuevoEstado;
     case 'DATA_CLEAR':

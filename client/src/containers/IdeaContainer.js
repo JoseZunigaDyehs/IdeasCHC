@@ -1,14 +1,26 @@
 import React, { Component } from 'react'
 import IdeaAportar from '../components/shared/IdeaAportar'
 import ApoyarIdea from '../components/ApoyarIdea'
+import Idea from '../components/Idea'
 import { connect } from 'react-redux'
 import axios from 'axios'
+
+const IdeaPrototipo =
+  {
+    "url": "",
+    "pk": 0,
+    "name": "",
+    "created": "",
+    "category": [{ "name": "" }],
+    "votes": 0,
+    "content": ""
+  }
 
 const Article = (props) => {
 
   if (props.post.error === '') {
     let fecha = "";
-    if(props.post.post.created !== undefined) {fecha = props.post.post.created.substring(0, 10);}
+    if (props.post.post.created !== undefined) { fecha = props.post.post.created.substring(0, 10); }
 
     return (
       <article>
@@ -38,40 +50,30 @@ const Article = (props) => {
 
 }
 
-const IdeaDiv = () => (
-  <div className="col-md-6 mb-4">
-    <div className="dvIdea d-flex">
-      <div className="dvIdeaCategoria">
-        <p className="m-0 text-uppercase">COMPRADORES</p>
-      </div>
-      <div className="dvIdeaBody w-100 py-3 d-flex flex-column px-4 justify-content-between">
-        <p className="mb-0 text-small text-uppercase text-right">12 Febrero 2018</p>
-        <div className="d-flex justify-content-between align-items-center">
-          <p className="w-90 mb-1">Es un hecho establecido hace demasiado tiempo que un lector se distraerá con el contenido del texto de un
-          sitio mientras que mira su diseño. </p>
-          <div className="d-flex c-gris align-items-center">
-            <i className="far fa-thumbs-up mr-1"></i>
-            <h5 className="f-w-900 mb-0">16</h5>
-          </div>
-        </div>
-        <a href="idea.html" className="link-pri">Leer Más
-        <i className="fas fa-arrow-right"></i>
-        </a>
-      </div>
-    </div>
-  </div>
-)
+const Ideas = (props) => {
+  if(props.props.post.pk!==undefined && props.props.ideas['0'] === undefined){
+    props.props.getPostsByCategoria(props.props.post.category.pk);
+  }
+  if (props.props.ideas['0'] === undefined) {
+    props.props.ideas.concat(IdeaPrototipo);
+  }
 
-const Ideas = () => (
-  <section className="container mb-5">
-    <div className="text-center pt-3 pb-4">
-      <h2>Otras ideas que podrían gustarte</h2>
-    </div>
-    <div className="row pt-3">
-      <IdeaDiv />
-    </div>
-  </section>
-)
+      return (
+        <section className="container mb-5">
+          <div className="text-center pt-3 pb-4">
+            <h2>Otras ideas que podrían gustarte</h2>
+          </div>
+          <div className="row pt-3">
+          {props.props.ideas.map(idea =>
+                  <Idea
+                    key={idea.pk}
+                    idea={idea}
+                  />
+                )}
+          </div>
+        </section>
+      )
+}
 
 const Comentarios = () => (
   <div>
@@ -93,26 +95,23 @@ const Comentarios = () => (
 
 const Main = (props) => {
   return (
-    <section className="container mt-2">
+    <section className="container mt-5">
       <div className="row justify-content-center py-3">
         <div className="col-md-7 d-flex flex-column">
           <Article post={props.post} />
           {/* <Comentarios /> */}
         </div>
-        {/*    */}
+        <ApoyarIdea />
       </div>
       <hr className="linea-black" />
     </section>
   )
 }
 
-class Idea extends Component {
-
-  componentDidMount() {
-    this.props.getPost()
-  }
+class IdeaContainer extends Component {
 
   componentWillMount() {
+    this.props.getPost()
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
   }
@@ -122,13 +121,12 @@ class Idea extends Component {
   }
 
   render() {
-    console.log('PROPS IDEA: ', this.props);
     if (this.props.error === '') {
       return (
         <main>
           <Main post={this.props} />
-          <Ideas />
-          <IdeaAportar/>
+          <Ideas props={this.props}/>
+          <IdeaAportar />
         </main>
       )
     } else {
@@ -145,7 +143,8 @@ class Idea extends Component {
 const mapStateToProps = (state) => {
   return {
     post: state.showPost,
-    error: state.errorShowPost
+    error: state.errorShowPost,
+    ideas: state.allPost
   }
 }
 
@@ -165,8 +164,17 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     clear: () => {
       dispatch({ type: 'CLEAR_POST' })
+    },
+    getPostsByCategoria: (idCategoria) => {
+      axios.get(`http://10.0.1.1:8000/ideas/?category=${idCategoria}`)
+        .then((res) => {
+          dispatch({ type: "DATA_LOADER", data: res.data })
+        })
+        .catch((err) => {
+          console.log(err);
+        })
     }
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Idea)
+export default connect(mapStateToProps, mapDispatchToProps)(IdeaContainer)

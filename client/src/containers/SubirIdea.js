@@ -32,7 +32,7 @@ const Main = (props) => {
   return (
     <main>
       <section className="container">
-        <EnviarIdeaForm onSubmit={funcionForma} />
+        <EnviarIdeaForm onSubmit={funcionForma} props={props}/>
       </section>
     </main>
   )
@@ -45,10 +45,32 @@ class SubirIdea extends Component {
     document.documentElement.scrollTop = 0;
   }
 
+  componentDidMount() {
+    const bloquearForm = (inp) => {
+      if(inp.length>1){
+        for (let i = 0; i < inp.length; i++) {
+          const element = inp[i];
+          element.setAttribute('disabled','true');
+        }
+      }else{
+        inp['0'].setAttribute('disabled','true');
+      }
+    }
+
+    if(this.props.login===null){
+      let inputs = document.getElementsByTagName('input');
+      bloquearForm(inputs);
+      let textarea = document.getElementsByTagName('textarea');
+      bloquearForm(textarea);
+      let select = document.getElementsByTagName('select');
+      bloquearForm(select);
+    }
+  }
+
   render() {
     return (
       <main>
-        <h3>{this.props.mensaje}</h3>
+        <h3 className='c-pink'>{this.props.mensaje}</h3>
         <Main props={this.props}/>
       </main>
     )

@@ -1,5 +1,8 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
+import SocialButton from '../SocialButton'
+import { connect } from 'react-redux'
+import axios from 'axios'
 
 const opciones = [
   { val: '-1', texto: 'Seleccione una categoria' },
@@ -108,28 +111,166 @@ const renderTextarea = ({
     </div>
   )
 
+
+
 const EnviarIdeaForm = props => {
   const { handleSubmit, submitting } = props
-  return (
-    <form onSubmit={handleSubmit}>
+
+  //LOGIN
+  const handleSocialLogin = (user) => {
+    let config = {
+      headers:
+        {
+          'Authorization': 'Token ' + '38890ba9756ef71480a23109641fe1dc7dec6afb',
+          'Content-Type': 'application/json'
+        }
+    }
+    //ENVIAR USUARIO A DJANGO
+    axios.post('http://10.0.1.1:8000/users/', {
+      username: user._profile.email,
+      email: user._profile.email,
+      password: user._profile.id,
+      first_name: user._profile.firstName,
+      last_name: user._profile.lastName
+    },
+      config
+    )
+      .then(res => {
+        props.logeo(user._profile);
+      })
+      .catch(err => {
+        debugger;
+        if(err.response.data.username["0"]==='Ya existe un usuario con este nombre.'){
+          props.obtenerToken(user._profile);
+        }else{
+          console.log(err);
+        }
+      });
+  }
+
+  const handleSocialLoginFailure = (err) => {
+    console.error(err)
+  }
+  //FIN LOGIN
+
+  if (props.login === null) {
+    return (
       <div className="row justify-content-start py-3">
-        <div className="col-md-6 d-flex flex-column">
+        <form onSubmit={handleSubmit} className='col-md-6 d-flex flex-column'>
           <h2 className="mt-2 mb-4">Compártenos tu idea</h2>
           <Field name="nombre" type="text" component={renderField} label="¿Cuál es el nombre de tu idea?" placeholder="Nombre" sublabel="Define un nombre atractivo que resuma el objetivo principal" />
           <Field name="descripcion" type="text" component={renderTextarea} label="¿En qué consiste tu idea?" sublabel="Describe el detalle de tu idea. ¿Cuál es el problema que quieres solucionar?" />
           <Field name="dirigido" type="text" component={renderField} label="¿A quién está dirigido?" placeholder="Usuario objetivo" sublabel="Describe quién será el principal usuario de tu solución" />
           <Field name="categoria" className="custom-select" type="text" component={renderSelect} label="¿En qué categoría clasificarías tu idea?" placeholder="Nombre" sublabel="Define cuál sección es la más adecuada para ubicar tu idea" />
-        </div>
-        <div className="col-md-12 text-right mb-5">
-          <hr className="linea-black" />
-          <button className="btn btn-primary py-3 px-5" type="submit" disabled={submitting}>SUBIR IDEA</button>
+          <div className='mb-5'>
+            <hr className="linea-black" />
+            <button className="btn btn-primary py-3 px-5 float-right" type="submit" disabled={submitting}>SUBIR IDEA</button>
+          </div>
+        </form>
+        <div className='col-md-6'>
+          <div className='py-5 px-4 back-gris-claro d-flex flex-column justify-content-center align-content-center'>
+            <h3>Para poder compartir una idea, debes ingresar tu cuenta de Google</h3>
+            <p>Ingrese su usuario en este link</p>
+            <div className='mt-4 mb-3 d-flex justify-content-center'>
+              <SocialButton
+                provider='google'
+                appId='178848131764-l6f61h1flr9rkqsilspj2ipc0bp00f1t.apps.googleusercontent.com'
+                onLoginSuccess={handleSocialLogin}
+                onLoginFailure={handleSocialLoginFailure}
+                className='f-w-500 d-flex align-items-center py-3 px-5 btn btn-secondary'
+              >
+                INGRESAR
+              </SocialButton>
+            </div>
+          </div>
         </div>
       </div>
-    </form>
-  )
+    )
+  } else {
+    return (
+      <form onSubmit={handleSubmit}>
+        <div className="row justify-content-start py-3">
+          <div className="col-md-6 d-flex flex-column">
+            <h2 className="mt-2 mb-4">Compártenos tu idea</h2>
+            <Field name="nombre" type="text" component={renderField} label="¿Cuál es el nombre de tu idea?" placeholder="Nombre" sublabel="Define un nombre atractivo que resuma el objetivo principal" />
+            <Field name="descripcion" type="text" component={renderTextarea} label="¿En qué consiste tu idea?" sublabel="Describe el detalle de tu idea. ¿Cuál es el problema que quieres solucionar?" />
+            <Field name="dirigido" type="text" component={renderField} label="¿A quién está dirigido?" placeholder="Usuario objetivo" sublabel="Describe quién será el principal usuario de tu solución" />
+            <Field name="categoria" className="custom-select" type="text" component={renderSelect} label="¿En qué categoría clasificarías tu idea?" placeholder="Nombre" sublabel="Define cuál sección es la más adecuada para ubicar tu idea" />
+          </div>
+          <div className="col-md-12 text-right mb-5">
+            <hr className="linea-black" />
+            <button className="btn btn-primary py-3 px-5" type="submit" disabled={submitting}>SUBIR IDEA</button>
+          </div>
+        </div>
+      </form>
+    )
+  }
 }
+
+const mapStateToProps = (state) => ({
+  login: state.login
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  logeo: (datos) => {
+    let config = {
+      headers:
+        {
+          'Authorization': 'Token ' + '38890ba9756ef71480a23109641fe1dc7dec6afb',
+          'Content-Type': 'application/json'
+        }
+    }
+    axios.post('http://10.0.1.1:8000/obtain-auth-token/',
+      {
+        username: datos.email,
+        password: datos.id
+      },
+      config
+    )
+      .then(res => {
+        console.log(res);
+        datos.token = res.data.token;
+        dispatch({ type: 'LOGIN', data: datos })
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  },
+  obtenerToken: (datos) => {
+    let config = {
+      headers:
+        {
+          'Authorization': 'Token ' + '38890ba9756ef71480a23109641fe1dc7dec6afb',
+          'Content-Type': 'application/json'
+        }
+    }
+    axios.post('http://10.0.1.1:8000/obtain-auth-token/',
+      {
+        username: datos.email,
+        password: datos.id
+      },
+      config
+    )
+      .then(res => {
+        console.log(res);
+        datos.token = res.data.token;
+        dispatch({ type: 'LOGIN', data: datos })
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  },
+  errorLogin: (err) => {
+    dispatch({ type: 'LOGIN_ERROR', data: err })
+  }
+});
+
+const EnviarIdeaFormRedux = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(EnviarIdeaForm);
 
 export default reduxForm({
   form: 'EnviarIdeaForm',
   validate,
-})(EnviarIdeaForm)
+})(EnviarIdeaFormRedux)

@@ -17,7 +17,6 @@ const Login = (props) => {
     )
       .then((res) => {
         console.log(res.data)
-        debugger;
         props.login(res.data)
         let linkHome = document.getElementById('home')
         let evObj = document.createEvent('Events');

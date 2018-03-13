@@ -10,7 +10,6 @@ class IdeasHomeContainer extends Component {
       this.props.getAllPosts();
     }else{
       this.props.getAllPosts();
-      //this.props.getAllPostsUser(this.props.login.id, this.props.login.jwt);
     }
   };
   componentWillUnmount() {
@@ -22,10 +21,9 @@ class IdeasHomeContainer extends Component {
     return <IdeasList ideas={this.props.allPosts} />;
   }
   
-
   render() {
     return (
-      <div>
+      <div className='py-4'>
         {this.allPosts()}
       </div>
     );

@@ -200,7 +200,7 @@ h2 {
 }
 
 .back-gris-claro {
-    background: #f3f3f3;
+    background: #f5f7fa;
 }
 
 .c-pink {
@@ -215,21 +215,14 @@ h2 {
     color: #fff;
 }
 
-/*FUENTES*/
-
-/* .arrow-pink {
-  background-image: url(../fonts/arrow-pink.svg);
-} */
-
-/*IDEAS HOME*/
-
 header {
     position: fixed;
     background-color: #fff;
     z-index: 100;
+    border-bottom: 1px solid #ec495c26;
 }
 
-main{
+main {
     padding-top: 3em;
 }
 
@@ -274,11 +267,28 @@ main{
     -moz-box-shadow: 0px 3px 7px 0px rgba(179, 179, 179, 1);
     box-shadow: 0px 3px 7px 0px rgba(179, 179, 179, 1);
 }
+
 .filtros.active {
     cursor: pointer;
     -webkit-box-shadow: 0px 3px 7px 0px rgba(179, 179, 179, 1);
     -moz-box-shadow: 0px 3px 7px 0px rgba(179, 179, 179, 1);
     box-shadow: 0px 3px 7px 0px rgba(179, 179, 179, 1);
+}
+
+.fomento {
+    border-bottom: 3px solid #ec8d4e;
+}
+
+.mejoras {
+    border-bottom: 3px solid #ec495b;
+}
+
+.ideas {
+    border-bottom: 3px solid #757575;
+}
+
+.todas{
+    border-bottom: 3px solid #f3f3f3;
 }
 
 .dvIdea {
@@ -337,7 +347,17 @@ footer p {
     margin-bottom: 0;
 }
 
+#firma{
+    position: absolute;
+    color: rgba(130, 130, 130, 0.01);
+    font-weight: 900;
+    right: 0;
+    padding-right: 5rem;
+}
+
 /*IDEA PAGINA*/
+
+
 
 .top {
     background: rgba(236, 73, 92, 1);

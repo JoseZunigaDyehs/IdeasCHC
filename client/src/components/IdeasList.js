@@ -2,10 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import Idea from './Idea'
-import iconTodo from '../img/icon-06.png'
-import iconFomento from '../img/icon-09.png'
-import iconMejora from '../img/icon-07.png'
-import iconInnova from '../img/icon-08.png'
 
 const IdeaPrototipo =
   {
@@ -32,7 +28,6 @@ class IdeasList extends Component {
   }
 
   cargarMas = (event) => {
-    debugger;
     this.props.cargarMas(this.props.paginador);
   }
 
@@ -41,29 +36,27 @@ class IdeasList extends Component {
   }
 
   render() {
-    debugger;
     if (this.props.ideas['0'] === undefined) {
       this.props.ideas.concat(IdeaPrototipo);
     }
 
     return (
-      <section>
-        <div className="container mb-5">
+      <section className='py-4'>
+        <div className="container mb-4">
+          <div className='col-md-12 justify-content-center d-flex'>
+            <h2 id='tituloIdeas' className='mb-4'>Te invitamos a apoyar ideas en las siguientes áreas</h2>
+          </div>
           <div className='col-12 d-flex'>
             <div className='d-flex align-items-center mr-2 filtros py-2 px-3 my-3 todas' data-cat='0' onClick={this.filtrarIdeas.bind(this)}>
-              <img src={iconTodo} className='pr-2' alt='' data-cat='0' onClick={this.filtrarIdeas.bind(this)} />
               <p className='fnt-14' data-cat='0' onClick={this.filtrarIdeas.bind(this)}>TODAS</p>
             </div>
             <div className='d-flex align-items-center mr-2 filtros py-2 px-3 my-3 fomento' data-cat='1' onClick={this.filtrarIdeas.bind(this)}>
-              <img src={iconFomento} className='pr-2' alt='' data-cat='1' onClick={this.filtrarIdeas.bind(this)} />
               <p className='fnt-14' data-cat='1' onClick={this.filtrarIdeas.bind(this)}>FOMENTO A LAS PYMES</p>
             </div>
             <div className='d-flex align-items-center mr-2 filtros py-2 px-3 my-3 mejoras' data-cat='3' onClick={this.filtrarIdeas.bind(this)}>
-              <img src={iconMejora} className='pr-2' alt='' data-cat='3' onClick={this.filtrarIdeas.bind(this)} />
-              <p className='fnt-14' data-cat='3' onClick={this.filtrarIdeas.bind(this)}>MEJORAS A LA PLATAFORMA</p>
+              <p className='fnt-14' data-cat='3' onClick={this.filtrarIdeas.bind(this)}>MEJORAS A MERCADO PÚBLICO</p>
             </div>
             <div className='d-flex align-items-center mr-2 filtros py-2 px-3 my-3 ideas' data-cat='2' onClick={this.filtrarIdeas.bind(this)}>
-              <img src={iconInnova} className='pr-2' alt='' data-cat='2' onClick={this.filtrarIdeas.bind(this)} />
               <p className='fnt-14' data-cat='2' onClick={this.filtrarIdeas.bind(this)}>IDEAS INNOVADORAS</p>
             </div>
           </div>
@@ -86,11 +79,6 @@ class IdeasList extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    paginador: state.paginador
-  }
-}
 
 const limpiarActivos = (idCategoria) => {
   let activos = document.getElementsByClassName('active');
@@ -111,6 +99,12 @@ const urlPaginadorCategoria = (cantidad) => {
     url = `http://10.0.1.1:8000/ideas/?category=${categoria}&limit=4&offset=${cantidad}`
   }
   return url
+}
+
+const mapStateToProps = (state) => {
+  return {
+    paginador: state.paginador
+  }
 }
 
 const mapDispatchToProps = (dispatch) => {
