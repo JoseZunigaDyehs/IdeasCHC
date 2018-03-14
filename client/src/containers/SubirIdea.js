@@ -6,33 +6,34 @@ import { reset } from 'redux-form'
 
 
 const Main = (props) => {
-  console.log(props);
   const funcionForma = (datos) => {
-    let config = {'Authorization': 'Bearer' + props.props.login.jwt }
-    axios.post('https://blog-api-u.herokuapp.com/v1/posts',
+    let config = { 'Authorization': 'Token ' + props.props.login.token }
+    axios.post('http://192.168.0.117:8000/ideas/post/',
       {
-        post: {
-          title: datos.nombre,
-          body:datos.descripcion
-        }
+        name: datos.nombre,
+        category: datos.categoria,
+        content: datos.descripcion
       }
-      ,{
+      , {
         headers: config
       }
     )
-      .then(res=>{
-        console.log(res)
+      .then(res => {
         props.props.creado()
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
       })
-      .catch(err=>{
+      .catch(err => {
         console.log(err)
         props.props.error()
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
       })
   }
   return (
     <main>
       <section className="container">
-        <EnviarIdeaForm onSubmit={funcionForma} props={props}/>
+        <EnviarIdeaForm onSubmit={funcionForma} props={props} />
       </section>
     </main>
   )
@@ -47,17 +48,17 @@ class SubirIdea extends Component {
 
   componentDidMount() {
     const bloquearForm = (inp) => {
-      if(inp.length>1){
+      if (inp.length > 1) {
         for (let i = 0; i < inp.length; i++) {
           const element = inp[i];
-          element.setAttribute('disabled','true');
+          element.setAttribute('disabled', 'true');
         }
-      }else{
-        inp['0'].setAttribute('disabled','true');
+      } else {
+        inp['0'].setAttribute('disabled', 'true');
       }
     }
 
-    if(this.props.login===null){
+    if (this.props.login === null) {
       let inputs = document.getElementsByTagName('input');
       bloquearForm(inputs);
       let textarea = document.getElementsByTagName('textarea');
@@ -70,8 +71,12 @@ class SubirIdea extends Component {
   render() {
     return (
       <main>
-        <h3 className='c-pink'>{this.props.mensaje}</h3>
-        <Main props={this.props}/>
+        <div className='container'>
+          <div className='row justify-content-center'>
+            <h3 className='c-pink mt-5 mensaje'>{this.props.mensaje}</h3>
+          </div>
+        </div>
+        <Main props={this.props} />
       </main>
     )
   }
@@ -80,18 +85,18 @@ class SubirIdea extends Component {
 const mapStateToProps = (state) => {
   return {
     login: state.login,
-    mensaje : state.creado
+    mensaje: state.creado
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    creado: ()=>{
-      dispatch({type: 'CREATED_'})
+    creado: () => {
+      dispatch({ type: 'CREATED_' })
       dispatch(reset('EnviarIdeaForm'))
     },
     error: () => {
-      dispatch({type: 'ERROR_CREATED_'})
+      dispatch({ type: 'ERROR_CREATED_' })
     }
   }
 }

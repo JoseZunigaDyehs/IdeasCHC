@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import IdeaAportar from '../components/shared/IdeaAportar'
 import ApoyarIdea from '../components/ApoyarIdea'
 import Idea from '../components/Idea'
+import IdeasRelacionadas from '../components/IdeasRelacionadas'
 import { connect } from 'react-redux'
 import axios from 'axios'
 
@@ -51,28 +52,34 @@ const Article = (props) => {
 }
 
 const Ideas = (props) => {
-  if(props.props.post.pk!==undefined && props.props.ideas['0'] === undefined){
+
+  if (props.props.post.pk !== undefined && props.props.ideas['0'] === undefined) {
+    
+    // let categoria = props.props.post.category
+    // categoria = categoria.substring(categoria.length - 2, categoria.length - 1)
+    // categoria = parseInt(categoria, 10)
     props.props.getPostsByCategoria(props.props.post.category.pk);
   }
   if (props.props.ideas['0'] === undefined) {
     props.props.ideas.concat(IdeaPrototipo);
   }
-
-      return (
-        <section className="container mb-5">
-          <div className="text-center pt-3 pb-4">
-            <h2>Otras ideas que podrían gustarte</h2>
-          </div>
-          <div className="row pt-3">
-          {props.props.ideas.map(idea =>
-                  <Idea
-                    key={idea.pk}
-                    idea={idea}
-                  />
-                )}
-          </div>
-        </section>
-      )
+  
+  return (
+    <section className="container mb-5">
+      <div className="text-center pt-3 pb-4">
+        <h2>Otras ideas que podrían gustarte</h2>
+      </div>
+      <div className="row pt-3">
+        {props.props.ideas.map(idea =>
+          <Idea
+            key={idea.pk}
+            idea={idea}
+            getPost={props.props.getPost}
+          />
+        )}
+      </div>
+    </section>
+  )
 }
 
 const Comentarios = () => (
@@ -110,10 +117,13 @@ const Main = (props) => {
 
 class IdeaContainer extends Component {
 
-  componentWillMount() {
-    this.props.getPost()
+  componentDidMount = () => {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
+  }
+
+  componentWillMount() {
+    this.props.getPost()
   }
 
   componentWillUnmount() {
@@ -121,11 +131,15 @@ class IdeaContainer extends Component {
   }
 
   render() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
     if (this.props.error === '') {
+      
       return (
         <main>
           <Main post={this.props} />
-          <Ideas props={this.props}/>
+          {/* <IdeasRelacionadas /> */}
+          <Ideas props={this.props} />
           <IdeaAportar />
         </main>
       )
@@ -151,8 +165,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getPost: () => {
+      
       let idPost = parseInt(ownProps.match.params.id, 10);
-      axios.get(`http://10.0.1.1:8000/ideas/${idPost}`)
+      axios.get(`http://192.168.0.117:8000/ideas/${idPost}`)
         .then(res => {
           dispatch({ type: "GET_POST", data: res.data })
           dispatch({ type: 'CLEAR_ERROR_GET_POST' })
@@ -166,7 +181,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch({ type: 'CLEAR_POST' })
     },
     getPostsByCategoria: (idCategoria) => {
-      axios.get(`http://10.0.1.1:8000/ideas/?category=${idCategoria}`)
+      axios.get(`http://192.168.0.117:8000/ideas/?category=${idCategoria}`)
         .then((res) => {
           dispatch({ type: "DATA_LOADER", data: res.data })
         })

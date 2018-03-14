@@ -1,5 +1,8 @@
-import React from 'react'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import axios from 'axios'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import {withRouter} from 'react-router-dom'
 
 const fechaCorrecta = (fecha) => {
 
@@ -73,41 +76,64 @@ const pintarCategoria = (categoria) => {
 
 }
 
-const Idea = ({ idea }) => {
-
-  const ideaTitle = idea.name.substring(0, 100)
-
-  let fecha = '06-06-2018'
-
-  if (idea.created !== '') {
-    fecha = fechaCorrecta(idea.created)
+const getIdea = (props) => {
+  if(props.getPost !== undefined){
+    props.getPost()
   }
+}
+//const Idea = ({ idea }) => {
+class Idea extends Component {
 
-  return (
-    <div className="col-md-6 mb-4">
-      <div className="dvIdea d-flex">
-        <div className={pintarCategoria(idea.category.pk)}>
-          <p className="m-0 text-uppercase"></p>
-        </div>
-        <div className="dvIdeaBody w-100 py-3 d-flex flex-column px-4 justify-content-between">
-          <p className="mb-0 text-small text-uppercase text-right f-w-700 l-s-1 c-gris">{fecha}</p>
-          <div className="d-flex justify-content-between align-items-center">
-            <div className="w-90 mb-1">
-              <p className='fnt-14 f-w-700 text-uppercase'>{idea.category.name}</p>
-              <p>{ideaTitle} </p>
-            </div>
-            <div className="d-flex c-gris align-items-center">
-              <i className="far fa-thumbs-up mr-1"></i>
-              <h5 className="f-w-900 mb-0">{idea.votes}</h5>
-            </div>
+  render() {
+
+    const ideaTitle = this.props.idea.name.substring(0, 100)
+    
+    let fecha = '06-06-2018'
+    // let categoria = this.props.idea.category
+    // categoria = categoria.substring(categoria.length - 2, categoria.length - 1)
+    if (this.props.idea.created !== '') {
+      fecha = fechaCorrecta(this.props.idea.created)
+
+    }
+    
+    return (
+      <div className="col-md-6 mb-4">
+        <div className="dvIdea d-flex">
+          <div className={pintarCategoria(this.props.idea.category.pk)}>
+            <p className="m-0 text-uppercase"></p>
           </div>
-          <Link className="link-tri" to={`/ideas/${idea.pk}`} key={idea.pk}>
-            Leer Más<i className="ml-2 fas fa-arrow-right"></i>
-          </Link>
+          <div className="dvIdeaBody w-100 py-3 d-flex flex-column px-4 justify-content-between">
+            <p className="mb-0 text-small text-uppercase text-right f-w-700 l-s-1 c-gris">{fecha}</p>
+            <div className="d-flex justify-content-between align-items-center">
+              <div className="w-90 mb-1">
+                <p className='fnt-14 f-w-700 text-uppercase'>{this.props.idea.category.name}</p>
+                <p>{ideaTitle} </p>
+              </div>
+              <div className="d-flex c-gris align-items-center">
+                <i className="far fa-thumbs-up mr-1"></i>
+                <h5 className="f-w-900 mb-0">{this.props.idea.votes}</h5>
+              </div>
+            </div>
+            <Link className="link-tri" to={`/ideas/${this.props.idea.pk}`} key={this.props.idea.pk} onClick={ getIdea(this.props)}>
+              Leer Más<i className="ml-2 fas fa-arrow-right"></i>
+            </Link>
+          </div>
         </div>
       </div>
-    </div>
-  )
+    )
+  }
 }
 
-export default Idea
+const mapStateToProps = (state) => {
+  return {
+
+  }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Idea)

@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import axios from 'axios'
 
 const TextoMain = () => (
-  <div className='container mt-5'>
+  <div className='container mt-5 pt-2'>
     <div className='row justify-content-center'>
       <div className="d-flex flex-column col-md-8 text-center pt-5">
         <h1 className='mb-4'>¿Tienes una idea para mejorar Mercado Público?</h1>
@@ -23,9 +23,9 @@ const MostrarEstadisticas = (numero, num, id) => {
         document.getElementById(id).textContent = num;
       } else {
         num = num + 1;
-        if(document.getElementById(id)===null){
+        if (document.getElementById(id) === null) {
           return false;
-        }else{
+        } else {
           document.getElementById(id).textContent = num;
           MostrarEstadisticas(numero, num, id);
         }
@@ -37,35 +37,35 @@ const MostrarEstadisticas = (numero, num, id) => {
 
 const Estadisticas = (props) => {
   return (
-    <section>
-      <div className="container pb-4">
-        <div className="row justify-content-center py-3">
-          <div className="col-md-4 col-6 c-pink text-center">
-            <h5 className="mb-0">TOTAL PARTICIPANTES</h5>
-            <h3 className="f-w-900 mb-0" id='totalParticipantes'>0</h3>
+    <div className="container pb-5">
+      <div className="row justify-content-center py-3">
+        <div className="col-md-4 col-6 c-pink text-center">
+          <h5 className="mb-0">TOTAL PARTICIPANTES</h5>
+          <h3 className="f-w-900 mb-0" id='totalParticipantes'>0</h3>
 
-          </div>
-          <div className="col-md-4 col-6 c-pink text-center">
-            <h5 className="mb-0">IDEAS COMPARTIDAS</h5>
-            <h3 className="f-w-900 mb-0" id='totalIdeas'>0</h3>
-
-          </div>
         </div>
-        <div className='row justify-content-center my-3 mb-5'>
-          <Link to='/subir-idea' className="btn btn-primary py-3 px-4">
-            COMPARTIR IDEA
-                <i className="ml-2 fas fa-arrow-right"></i>
-          </Link>
+        <div className="col-md-4 col-6 c-pink text-center">
+          <h5 className="mb-0">IDEAS COMPARTIDAS</h5>
+          <h3 className="f-w-900 mb-0" id='totalIdeas'>0</h3>
+
         </div>
       </div>
-    </section>
+      <div className='row justify-content-center my-3 mb-5'>
+        <Link to='/subir-idea' className="btn btn-primary py-3 px-4">
+          COMPARTIR IDEA
+                <i className="ml-2 fas fa-arrow-right"></i>
+        </Link>
+      </div>
+    </div>
   )
 }
 
 const Mensaje = () => (
-  <section className='container-fluid back-gris c-white'>
+  <section className='container-fluid gradient-gris c-white'>
     <div className='row justify-content-center py-3'>
-      <h2 className='m-0 py-5'>Cuando todos aportamos, el resultado es mejor</h2>
+      <div className='col-12 d-flex justify-content-center '>
+        <h2 className='m-0 py-5'>Cuando todos aportamos, el resultado es mejor</h2>
+      </div>
     </div>
   </section>
 )
@@ -100,12 +100,12 @@ const Categorias = () => (
 
 class HomeContainer extends Component {
 
-  componentWillMount(){
+  componentWillMount() {
     this.props.getCountIdeas()
     this.props.getCountUsers()
-    
+
   }
-  
+
   render() {
     return (
       <main>
@@ -129,24 +129,24 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getCountIdeas: () => {
-      axios.get('http://10.0.1.1:8000/ideas/count/')
-      .then(res => {
-        dispatch({ type: 'COUNT_IDEAS', data: res.data.ideas_count })
-        MostrarEstadisticas(res.data.ideas_count,0,'totalIdeas')
-      })
-      .catch(err => {
-        console.log(err);
-      })
+      axios.get('http://192.168.0.117:8000/ideas/count/')
+        .then(res => {
+          dispatch({ type: 'COUNT_IDEAS', data: res.data.ideas_count })
+          MostrarEstadisticas(res.data.ideas_count, 0, 'totalIdeas')
+        })
+        .catch(err => {
+          console.log(err);
+        })
     },
     clear: () => {
-      dispatch({type:'CLEAR_COUNT_IDEAS'})
-      dispatch({type:'CLEAR_COUNT_USERS'})
+      dispatch({ type: 'CLEAR_COUNT_IDEAS' })
+      dispatch({ type: 'CLEAR_COUNT_USERS' })
     },
     getCountUsers: () => {
-      axios.get('http://10.0.1.1:8000/users/count/')
-      .then(res => {
-        dispatch({ type: 'COUNT_USERS', data: res.data.users_count })
-        MostrarEstadisticas(res.data.users_count,0,'totalParticipantes')
+      axios.get('http://192.168.0.117:8000/users/count/')
+        .then(res => {
+          dispatch({ type: 'COUNT_USERS', data: res.data.users_count })
+          MostrarEstadisticas(res.data.users_count, 0, 'totalParticipantes')
         })
         .catch(err => {
           console.log(err);

@@ -118,6 +118,17 @@ h2 {
 
 /*Utilidades*/
 
+.gradient-gris{
+    background: rgba(140,140,140,1);
+    background: -moz-linear-gradient(top, rgba(140,140,140,1) 0%, rgba(105,105,105,1) 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(140,140,140,1)), color-stop(100%, rgba(105,105,105,1)));
+    background: -webkit-linear-gradient(top, rgba(140,140,140,1) 0%, rgba(105,105,105,1) 100%);
+    background: -o-linear-gradient(top, rgba(140,140,140,1) 0%, rgba(105,105,105,1) 100%);
+    background: -ms-linear-gradient(top, rgba(140,140,140,1) 0%, rgba(105,105,105,1) 100%);
+    background: linear-gradient(to bottom, rgba(140,140,140,1) 0%, rgba(105,105,105,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8c8c8c', endColorstr='#696969', GradientType=0 );
+}
+
 .w-20 {
     width: 20%;
 }
@@ -393,6 +404,9 @@ footer p {
 }
 
 /*SUBIR IDEA*/
+.mensaje{
+    margin-bottom: -2rem;
+}
 
 .form-control {
     padding: 0.85rem .8rem;
@@ -456,5 +470,14 @@ footer p {
     footer .col-md-4 p {
         text-align: center;
         padding-top: 1rem;
+    }
+    .hide-cel{
+        display:none;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .hide-cel{
+        display:none;
     }
 }
