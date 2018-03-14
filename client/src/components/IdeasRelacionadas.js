@@ -15,7 +15,14 @@ const IdeaPrototipo =
   }
 
 class IdeasRelacionadas extends Component {
+
+    componentWillMount() {
+        debugger
+        this.props.clear()
+      }
+
     render() {
+        debugger
         if (this.props.post.pk !== undefined && this.props.ideas['0'] === undefined) {
             this.props.getPostsByCategoria(this.props.post.category.pk);
         }

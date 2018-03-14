@@ -4,6 +4,7 @@ import { allPost, showPost, errorShowPost, creado, paginador } from './ideasRedu
 import { session, userCreated } from './session'
 import { spinner } from './spinner'
 import { countIdeas, countUsers } from './estadisticas'
+import { getCategorias } from './categorias'
 
 export default combineReducers({
   allPost,
@@ -16,5 +17,6 @@ export default combineReducers({
   spinnerStatus: spinner,
   countIdeas,
   countUsers,
-  paginador
+  paginador,
+  getCategorias
 })

@@ -16,7 +16,6 @@ const IdeaPrototipo =
 
 
 class IdeasList extends Component {
-
   filtrarIdeas = (event) => {
     let idCategoria = event.target.dataset.cat
     idCategoria = parseInt(idCategoria, 10)
@@ -33,13 +32,19 @@ class IdeasList extends Component {
 
   componentWillUnmount() {
     this.props.limpiarPaginador();
+    this.props.clear();
   }
 
+  
+  componentWillMount() {
+    this.props.clear()
+  }
+  
   render() {
     if (this.props.ideas['0'] === undefined) {
       this.props.ideas.concat(IdeaPrototipo);
     }
-
+debugger
     return (
       <section className='py-4'>
         <div className="container mb-4">
@@ -110,6 +115,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getPostsByCategoria: (idCategoria) => {
+      debugger
       axios.get(`http://192.168.0.117:8000/ideas/?category=${idCategoria}`)
         .then((res) => {
           dispatch({ type: "DATA_CLEAR" })
@@ -122,6 +128,7 @@ const mapDispatchToProps = (dispatch) => {
         })
     },
     getAllPosts: () => {
+      debugger
       axios.get(`http://192.168.0.117:8000/ideas/`)
         .then((res) => {
           dispatch({ type: "DATA_CLEAR" });
@@ -146,6 +153,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     limpiarPaginador: () => {
       dispatch({ type: 'CLEAR_PAGINADOR' })
+    },
+    clear: () => {
+      dispatch({ type: "DATA_CLEAR" });
     }
   }
 }

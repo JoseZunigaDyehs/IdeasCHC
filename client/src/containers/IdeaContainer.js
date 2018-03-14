@@ -52,7 +52,7 @@ const Article = (props) => {
 }
 
 const Ideas = (props) => {
-
+debugger
   if (props.props.post.pk !== undefined && props.props.ideas['0'] === undefined) {
     
     // let categoria = props.props.post.category
@@ -123,7 +123,8 @@ class IdeaContainer extends Component {
   }
 
   componentWillMount() {
-    this.props.getPost()
+    // this.props.clear()
+    // this.props.getPost()
   }
 
   componentWillUnmount() {
@@ -134,7 +135,7 @@ class IdeaContainer extends Component {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
     if (this.props.error === '') {
-      
+      debugger
       return (
         <main>
           <Main post={this.props} />
@@ -165,7 +166,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getPost: () => {
-      
+      debugger
       let idPost = parseInt(ownProps.match.params.id, 10);
       axios.get(`http://192.168.0.117:8000/ideas/${idPost}`)
         .then(res => {
@@ -179,8 +180,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     clear: () => {
       dispatch({ type: 'CLEAR_POST' })
+      dispatch({ type: 'DATA_CLEAR' })
     },
     getPostsByCategoria: (idCategoria) => {
+      debugger
       axios.get(`http://192.168.0.117:8000/ideas/?category=${idCategoria}`)
         .then((res) => {
           dispatch({ type: "DATA_LOADER", data: res.data })

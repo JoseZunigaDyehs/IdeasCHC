@@ -33,7 +33,7 @@ const Main = (props) => {
   return (
     <main>
       <section className="container">
-        <EnviarIdeaForm onSubmit={funcionForma} props={props} />
+        <EnviarIdeaForm onSubmit={funcionForma} categorias={props}/>
       </section>
     </main>
   )
@@ -44,9 +44,11 @@ class SubirIdea extends Component {
   componentWillMount() {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
+
   }
 
-  componentDidMount() {
+  componentDidMount() { 
+
     const bloquearForm = (inp) => {
       if (inp.length > 1) {
         for (let i = 0; i < inp.length; i++) {
@@ -85,7 +87,8 @@ class SubirIdea extends Component {
 const mapStateToProps = (state) => {
   return {
     login: state.login,
-    mensaje: state.creado
+    mensaje: state.creado,
+    categorias: state.getCategorias
   }
 }
 
@@ -97,7 +100,23 @@ const mapDispatchToProps = (dispatch) => {
     },
     error: () => {
       dispatch({ type: 'ERROR_CREATED_' })
-    }
+    },
+    getCategorias: () => {
+      axios.get('http://192.168.0.117:8000/categories/')
+        .then(res => {
+          
+          console.log(res)
+          let opciones = res.data.results.map((opt) => {
+            return (`<option value=${opt.pk} key=${opt.pk}>${opt.name}</option>`)
+          })
+          document.getElementsByName('categoria')['0'].innerHTML = opciones
+          dispatch({type:'GET_CATEGORIAS',data: res.data.results})
+        }
+        )
+        .catch(err => {
+          console.log(err)
+        })
+    },
   }
 }
 

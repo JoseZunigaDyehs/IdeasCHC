@@ -6,11 +6,7 @@ import IdeasList from '../components/IdeasList'
 class IdeasHomeContainer extends Component {
 
   componentDidMount = () => {
-    if(this.props.login == null){
       this.props.getAllPosts();
-    }else{
-      this.props.getAllPosts();
-    }
   };
   componentWillUnmount() {
     this.props.clear();
