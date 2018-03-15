@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import IdeaAportar from '../components/shared/IdeaAportar'
 import ApoyarIdea from '../components/ApoyarIdea'
 import Idea from '../components/Idea'
-import IdeasRelacionadas from '../components/IdeasRelacionadas'
 import { connect } from 'react-redux'
 import axios from 'axios'
 
@@ -52,12 +51,9 @@ const Article = (props) => {
 }
 
 const Ideas = (props) => {
-debugger
+
   if (props.props.post.pk !== undefined && props.props.ideas['0'] === undefined) {
-    
-    // let categoria = props.props.post.category
-    // categoria = categoria.substring(categoria.length - 2, categoria.length - 1)
-    // categoria = parseInt(categoria, 10)
+
     props.props.getPostsByCategoria(props.props.post.category.pk);
   }
   if (props.props.ideas['0'] === undefined) {
@@ -75,6 +71,7 @@ debugger
             key={idea.pk}
             idea={idea}
             getPost={props.props.getPost}
+            contador={props.props.contador}
           />
         )}
       </div>
@@ -82,31 +79,30 @@ debugger
   )
 }
 
-const Comentarios = () => (
-  <div>
-    <hr className="linea-black w-100" />
-    <div className="comentariosIdea mb-5">
-      <div className="d-flex my-3">
-        <h2>Comentarios</h2>
-        <h2 className="c-pink ml-3">(0)</h2>
-      </div>
-      <p>Regístrate o ingresa para ayudar a Clamencia Catalán a mejorar su propuesta.</p>
-      <textarea className="w-100" name="" id="" cols="30" rows="10"></textarea>
-      <div className="w-100 text-right">
-        <button className="btn btn-secondary py-3 px-5 mt-4 text-right">COMENTAR</button>
-      </div>
-    </div>
-  </div>
+// const Comentarios = () => (
+//   <div>
+//     <hr className="linea-black w-100" />
+//     <div className="comentariosIdea mb-5">
+//       <div className="d-flex my-3">
+//         <h2>Comentarios</h2>
+//         <h2 className="c-pink ml-3">(0)</h2>
+//       </div>
+//       <p>Regístrate o ingresa para ayudar a Clamencia Catalán a mejorar su propuesta.</p>
+//       <textarea className="w-100" name="" id="" cols="30" rows="10"></textarea>
+//       <div className="w-100 text-right">
+//         <button className="btn btn-secondary py-3 px-5 mt-4 text-right">COMENTAR</button>
+//       </div>
+//     </div>
+//   </div>
 
-)
+// )
 
 const Main = (props) => {
   return (
-    <section className="container mt-5">
+    <section className="container pt-5">
       <div className="row justify-content-center py-3">
         <div className="col-md-7 d-flex flex-column">
           <Article post={props.post} />
-          {/* <Comentarios /> */}
         </div>
         <ApoyarIdea />
       </div>
@@ -123,23 +119,23 @@ class IdeaContainer extends Component {
   }
 
   componentWillMount() {
-    // this.props.clear()
-    // this.props.getPost()
+    this.props.clear()
+    this.props.clearPosts()
+    this.props.getPost()
   }
 
   componentWillUnmount() {
     this.props.clear()
+    this.props.clearPosts()
   }
 
   render() {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
     if (this.props.error === '') {
-      debugger
       return (
         <main>
           <Main post={this.props} />
-          {/* <IdeasRelacionadas /> */}
           <Ideas props={this.props} />
           <IdeaAportar />
         </main>
@@ -154,21 +150,24 @@ class IdeaContainer extends Component {
   }
 }
 
+let contador = 0;
 
 const mapStateToProps = (state) => {
   return {
     post: state.showPost,
     error: state.errorShowPost,
-    ideas: state.allPost
+    ideas: state.allPost,
+    contador: contador
   }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    getPost: () => {
-      debugger
-      let idPost = parseInt(ownProps.match.params.id, 10);
-      axios.get(`http://192.168.0.117:8000/ideas/${idPost}`)
+    getPost: (idPost) => {
+      if(idPost===undefined){
+        idPost = parseInt(ownProps.match.params.id, 10);
+      }
+      axios.get(`http://10.0.1.1:8000/ideas/${idPost}`)
         .then(res => {
           dispatch({ type: "GET_POST", data: res.data })
           dispatch({ type: 'CLEAR_ERROR_GET_POST' })
@@ -180,11 +179,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     clear: () => {
       dispatch({ type: 'CLEAR_POST' })
+    },
+    clearPosts: () => {
       dispatch({ type: 'DATA_CLEAR' })
     },
     getPostsByCategoria: (idCategoria) => {
-      debugger
-      axios.get(`http://192.168.0.117:8000/ideas/?category=${idCategoria}`)
+      axios.get(`http://10.0.1.1:8000/ideas/?category=${idCategoria}`)
         .then((res) => {
           dispatch({ type: "DATA_LOADER", data: res.data })
         })

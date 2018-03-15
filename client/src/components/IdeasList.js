@@ -35,35 +35,35 @@ class IdeasList extends Component {
     this.props.clear();
   }
 
-  
+
   componentWillMount() {
     this.props.clear()
   }
-  
+
   render() {
     if (this.props.ideas['0'] === undefined) {
       this.props.ideas.concat(IdeaPrototipo);
     }
-debugger
+
     return (
       <section className='py-4'>
         <div className="container mb-4">
           <div className='col-md-12 justify-content-center d-flex'>
             <h2 id='tituloIdeas' className='mb-4'>Te invitamos a apoyar ideas en las siguientes áreas</h2>
           </div>
-          <div className='col-12 d-flex'>
-            <div className='d-flex align-items-center mr-2 filtros py-2 px-3 my-3 todas' data-cat='0' onClick={this.filtrarIdeas.bind(this)}>
-              <p className='fnt-14' data-cat='0' onClick={this.filtrarIdeas.bind(this)}>TODAS</p>
-            </div>
-            <div className='d-flex align-items-center mr-2 filtros py-2 px-3 my-3 fomento' data-cat='1' onClick={this.filtrarIdeas.bind(this)}>
-              <p className='fnt-14' data-cat='1' onClick={this.filtrarIdeas.bind(this)}>FOMENTO A LAS PYMES</p>
-            </div>
-            <div className='d-flex align-items-center mr-2 filtros py-2 px-3 my-3 mejoras' data-cat='3' onClick={this.filtrarIdeas.bind(this)}>
-              <p className='fnt-14' data-cat='3' onClick={this.filtrarIdeas.bind(this)}>MEJORAS A MERCADO PÚBLICO</p>
-            </div>
-            <div className='d-flex align-items-center mr-2 filtros py-2 px-3 my-3 ideas' data-cat='2' onClick={this.filtrarIdeas.bind(this)}>
-              <p className='fnt-14' data-cat='2' onClick={this.filtrarIdeas.bind(this)}>IDEAS INNOVADORAS</p>
-            </div>
+          <div className='d-flex mb-4 mt-3 row filtrosPadre mx-0'>
+              <div className='col-md-3 py-2 filtros todas' data-cat='0' onClick={this.filtrarIdeas.bind(this)}>
+                <p className='' data-cat='0' onClick={this.filtrarIdeas.bind(this)}>TODAS</p>
+              </div>
+              <div className='col-md-3 py-2 filtros fomento' data-cat='1' onClick={this.filtrarIdeas.bind(this)}>
+                <p className='' data-cat='1' onClick={this.filtrarIdeas.bind(this)}>FOMENTO A LAS PYMES</p>
+              </div>
+              <div className='col-md-3 py-2 filtros mejoras' data-cat='3' onClick={this.filtrarIdeas.bind(this)}>
+                <p className='' data-cat='3' onClick={this.filtrarIdeas.bind(this)}>MEJORAS A MERCADO PÚBLICO</p>
+              </div>
+              <div className='col-md-3 py-2 filtros ideas' data-cat='2' onClick={this.filtrarIdeas.bind(this)}>
+                <p className='' data-cat='2' onClick={this.filtrarIdeas.bind(this)}>IDEAS INNOVADORAS</p>
+              </div>
           </div>
           <div className="row pt-3">
 
@@ -98,10 +98,10 @@ const limpiarActivos = (idCategoria) => {
 const urlPaginadorCategoria = (cantidad) => {
   let activos = document.getElementsByClassName('active')
   let categoria = activos['0'].dataset.cat
-  categoria = parseInt(categoria,100)
-  let url = `http://192.168.0.117:8000/ideas/?limit=4&offset=${cantidad}`
+  categoria = parseInt(categoria, 10)
+  let url = `http://10.0.1.1:8000/ideas/?limit=4&offset=${cantidad}`
   if (categoria !== 0) {
-    url = `http://192.168.0.117:8000/ideas/?category=${categoria}&limit=4&offset=${cantidad}`
+    url = `http://10.0.1.1:8000/ideas/?category=${categoria}&limit=4&offset=${cantidad}`
   }
   return url
 }
@@ -115,8 +115,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getPostsByCategoria: (idCategoria) => {
-      debugger
-      axios.get(`http://192.168.0.117:8000/ideas/?category=${idCategoria}`)
+      axios.get(`http://10.0.1.1:8000/ideas/?category=${idCategoria}`)
         .then((res) => {
           dispatch({ type: "DATA_CLEAR" })
           dispatch({ type: "DATA_LOADER", data: res.data })
@@ -128,8 +127,7 @@ const mapDispatchToProps = (dispatch) => {
         })
     },
     getAllPosts: () => {
-      debugger
-      axios.get(`http://192.168.0.117:8000/ideas/`)
+      axios.get(`http://10.0.1.1:8000/ideas/`)
         .then((res) => {
           dispatch({ type: "DATA_CLEAR" });
           dispatch({ type: "DATA_LOADER", data: res.data });

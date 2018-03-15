@@ -8,7 +8,7 @@ import { reset } from 'redux-form'
 const Main = (props) => {
   const funcionForma = (datos) => {
     let config = { 'Authorization': 'Token ' + props.props.login.token }
-    axios.post('http://192.168.0.117:8000/ideas/post/',
+    axios.post('http://10.0.1.1:8000/ideas/post/',
       {
         name: datos.nombre,
         category: datos.categoria,
@@ -32,7 +32,7 @@ const Main = (props) => {
   }
   return (
     <main>
-      <section className="container">
+      <section className="container pt-3">
         <EnviarIdeaForm onSubmit={funcionForma} categorias={props}/>
       </section>
     </main>
@@ -42,9 +42,9 @@ const Main = (props) => {
 class SubirIdea extends Component {
 
   componentWillMount() {
-    document.body.scrollTop = 0;
-    document.documentElement.scrollTop = 0;
-
+    document.body.scrollTop = 0
+    document.documentElement.scrollTop = 0
+    this.props.limpiarMensaje()
   }
 
   componentDidMount() { 
@@ -102,10 +102,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch({ type: 'ERROR_CREATED_' })
     },
     getCategorias: () => {
-      axios.get('http://192.168.0.117:8000/categories/')
+      axios.get('http://10.0.1.1:8000/categories/')
         .then(res => {
-          
-          console.log(res)
           let opciones = res.data.results.map((opt) => {
             return (`<option value=${opt.pk} key=${opt.pk}>${opt.name}</option>`)
           })
@@ -117,6 +115,9 @@ const mapDispatchToProps = (dispatch) => {
           console.log(err)
         })
     },
+    limpiarMensaje: () => {
+      dispatch({type:'CLEAR_MENSAJE'})
+    }
   }
 }
 

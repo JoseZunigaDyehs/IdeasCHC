@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import axios from 'axios'
 
 const TextoMain = () => (
-  <div className='container mt-5 pt-2'>
+  <div className='container pt-5'>
     <div className='row justify-content-center'>
       <div className="d-flex flex-column col-md-8 text-center pt-5">
         <h1 className='mb-4'>¿Tienes una idea para mejorar Mercado Público?</h1>
@@ -70,34 +70,6 @@ const Mensaje = () => (
   </section>
 )
 
-const Categorias = () => (
-  <section className="container my-5">
-    <h2 className="text-center mb-4">Revisar ideas por categoría</h2>
-    <div className="row">
-      <div className="col-md-6 mt-2 col-sm-6 col-lg-3">
-        <div className="dvIdeasPorCategoria text-center px-3 d-flex align-items-center justify-content-center">
-          <h5 className="text-uppercase mb-0">compradores</h5>
-        </div>
-      </div>
-      <div className="col-md-6 mt-2 col-sm-6 col-lg-3">
-        <div className="dvIdeasPorCategoria text-center px-3 d-flex align-items-center justify-content-center">
-          <h5 className="text-uppercase mb-0">pagos</h5>
-        </div>
-      </div>
-      <div className="col-md-6 mt-2 col-sm-6 col-lg-3">
-        <div className="dvIdeasPorCategoria text-center px-3 d-flex align-items-center justify-content-center">
-          <h5 className="text-uppercase mb-0">proveedores</h5>
-        </div>
-      </div>
-      <div className="col-md-6 mt-2 col-sm-6 col-lg-3">
-        <div className="dvIdeasPorCategoria text-center px-3 d-flex align-items-center justify-content-center">
-          <h5 className="text-uppercase mb-0">convenio marco</h5>
-        </div>
-      </div>
-    </div>
-  </section>
-)
-
 class HomeContainer extends Component {
 
   componentWillMount() {
@@ -111,7 +83,8 @@ class HomeContainer extends Component {
       <main>
         <TextoMain />
         <Estadisticas props={this.props} />
-        <Mensaje />
+        <hr class='linea-black'/>
+        {/* <Mensaje /> */}
         <IdeasHomeContainer />
         <IdeaAportar />
       </main >
@@ -129,7 +102,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getCountIdeas: () => {
-      axios.get('http://192.168.0.117:8000/ideas/count/')
+      axios.get('http://10.0.1.1:8000/ideas/count/')
         .then(res => {
           dispatch({ type: 'COUNT_IDEAS', data: res.data.ideas_count })
           MostrarEstadisticas(res.data.ideas_count, 0, 'totalIdeas')
@@ -143,7 +116,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch({ type: 'CLEAR_COUNT_USERS' })
     },
     getCountUsers: () => {
-      axios.get('http://192.168.0.117:8000/users/count/')
+      axios.get('http://10.0.1.1:8000/users/count/')
         .then(res => {
           dispatch({ type: 'COUNT_USERS', data: res.data.users_count })
           MostrarEstadisticas(res.data.users_count, 0, 'totalParticipantes')

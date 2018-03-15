@@ -3,34 +3,18 @@ import { connect } from 'react-redux'
 import axios from 'axios'
 import SocialButton from './SocialButton'
 
-const IdeaPrototipo =
-  {
-    "url": "",
-    "pk": 0,
-    "name": "",
-    "created": "",
-    "category": [{ "name": "" }],
-    "votes": 0,
-    "content": ""
-  }
-
 class ApoyarIdea extends Component {
 
-  postApoyo = (post) => {
-    console.log('EN APOYO POST ===> ', post);
+  postApoyo = (e, post) => {
+    if (e !== undefined) {
+      const token = this.props.login.token;
+      this.props.apoyar(post, token);
+    }
   }
 
   //LOGIN
   handleSocialLogin = (user) => {
     this.props.logeo(user._profile);
-    //ENVIAR USUARIO A DJANGO
-    axios.post('http://')
-      .then(res => {
-        console.log(res);
-      })
-      .catch(err => {
-        console.log(err);
-      });
   }
 
   handleSocialLoginFailure = (err) => {
@@ -39,11 +23,6 @@ class ApoyarIdea extends Component {
   //FIN LOGIN
 
   render() {
-    // console.log('propsssss => ', this.props);
-    // debugger;
-    // if(this.props.post.post.length === undefined){
-    //   this.props.post.post = {IdeaPrototipo};
-    // }
     if (this.props.login === null) {
       return (
         <aside className="col-md-5" >
@@ -69,14 +48,10 @@ class ApoyarIdea extends Component {
         <aside className="col-md-5" >
           <div className="d-flex back-gris-claro flex-column align-items-center justify-content-center py-6 px-4">
             <h4 className="f-w-300 text-center mb-4">¿Crees que esta idea es positiva para Mercado Público?</h4>
-            <button className="btn btn-primary py-3 px-5 d-flex align-items-center" >APOYAR IDEA
+            <button className="btn btn-primary py-3 px-5 d-flex align-items-center" onClick={(e) => this.postApoyo(e, this.props.post)}>APOYAR IDEA
         <i className=" ml-2 far fa-thumbs-up fnt-24"></i>
             </button>
           </div>
-          {/* <div className="d-flex back-gris-claro flex-column justify-content-center py-5 px-4 mt-4">
-            <h4 className="f-w-300 mb-2">Compartir idea</h4>
-            <i className="far fa-envelope fnt-24 c-pink cursor-pointer"></i>
-          </div> */}
         </aside>
       )
     }
@@ -86,24 +61,79 @@ class ApoyarIdea extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    login: state.login
+    login: state.login,
+    post: state.showPost
   }
 }
 
 //ACCIONAR LOS DISPATCH, PASA UNA ACCION AL STORE
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    apoyar: () => {
-      axios.put('', {})
+    apoyar: (post, token) => {
+      let config = { 'Authorization': 'Token ' + token }
+      axios.post('http://10.0.1.1:8000/votes/post/',
+        {
+          idea: post.pk
+        }
+        , {
+          headers: config
+        }
+      )
         .then(res => {
-
+          if (res.statusText === "Created") {
+            alert('apoyo agregado')
+            dispatch({ type: "GET_POST", data: post })
+          }
         })
         .catch(err => {
-
+          console.log(err)
         })
     },
     logeo: (datos) => {
-      dispatch({ type: 'LOGIN', data: datos })
+      let config = {
+        headers:
+          {
+            'Authorization': 'Token 38890ba9756ef71480a23109641fe1dc7dec6afb',
+            'Content-Type': 'application/json'
+          }
+      }
+      axios.post('http://10.0.1.1:8000/obtain-auth-token/',
+        {
+          username: datos.email,
+          password: datos.id
+        },
+        config
+      )
+        .then(res => {
+          datos.token = res.data.token;
+          dispatch({ type: 'LOGIN', data: datos })
+        })
+        .catch(err => {
+          console.log(err);
+        })
+    },
+    obtenerToken: (datos) => {
+      let config = {
+        headers:
+          {
+            'Authorization': 'Token 38890ba9756ef71480a23109641fe1dc7dec6afb',
+            'Content-Type': 'application/json'
+          }
+      }
+      axios.post('http://10.0.1.1:8000/obtain-auth-token/',
+        {
+          username: datos.email,
+          password: datos.id
+        },
+        config
+      )
+        .then(res => {
+          datos.token = res.data.token;
+          dispatch({ type: 'LOGIN', data: datos })
+        })
+        .catch(err => {
+          console.log(err);
+        })
     },
     errorLogin: (err) => {
       dispatch({ type: 'LOGIN_ERROR', data: err })

@@ -17,12 +17,10 @@ const IdeaPrototipo =
 class IdeasRelacionadas extends Component {
 
     componentWillMount() {
-        debugger
         this.props.clear()
       }
 
     render() {
-        debugger
         if (this.props.post.pk !== undefined && this.props.ideas['0'] === undefined) {
             this.props.getPostsByCategoria(this.props.post.category.pk);
         }
@@ -58,8 +56,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         getPostsByCategoria: (idCategoria) => {
-            debugger;
-            axios.get(`http://192.168.0.117:8000/ideas/?category=${idCategoria}`)
+            axios.get(`http://10.0.1.1:8000/ideas/?category=${idCategoria}`)
               .then((res) => {
                 dispatch({ type: "DATA_LOADER", data: res.data })
               })

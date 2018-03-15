@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Field, reduxForm } from 'redux-form'
 import SocialButton from '../SocialButton'
 import { connect } from 'react-redux'
@@ -9,16 +9,16 @@ const validate = values => {
   if (!values.nombre) {
     errors.nombre = 'Requerido'
   } else if (values.nombre.length < 15) {
-    errors.nombre = 'Minimo 15 letras'
+    errors.nombre = 'Minimo 15 caracteres'
   } else if (values.nombre.length > 200) {
-    errors.nombre = 'No puede ser mayor a 200 letras'
+    errors.nombre = 'No puede ser mayor a 200 caracteres'
   }
   if (!values.descripcion) {
     errors.descripcion = 'Requerido'
   } else if (values.descripcion.length < 50) {
-    errors.descripcion = 'Minimo 50 letras'
-  } else if (values.descripcion.length > 300) {
-    errors.descripcion = 'No puede ser mayor a 300 letras'
+    errors.descripcion = 'Minimo 50 caracteres'
+  } else if (values.descripcion.length > 500) {
+    errors.descripcion = 'No puede ser mayor a 500 caracteres'
   }
   // if (!values.dirigido) {
   //   errors.dirigido = 'Requerido'
@@ -116,12 +116,12 @@ const EnviarIdeaForm = (props) => {
     let config = {
       headers:
         {
-          'Authorization': 'Token ' + '38890ba9756ef71480a23109641fe1dc7dec6afb',
+          'Authorization': 'Token 38890ba9756ef71480a23109641fe1dc7dec6afb',
           'Content-Type': 'application/json'
         }
     }
     //ENVIAR USUARIO A DJANGO
-    axios.post('http://192.168.0.117:8000/users/', {
+    axios.post('http://10.0.1.1:8000/users/', {
       username: user._profile.email,
       email: user._profile.email,
       password: user._profile.id,
@@ -215,11 +215,11 @@ const mapDispatchToProps = (dispatch) => ({
     let config = {
       headers:
         {
-          'Authorization': 'Token ' + '38890ba9756ef71480a23109641fe1dc7dec6afb',
+          'Authorization': 'Token 38890ba9756ef71480a23109641fe1dc7dec6afb',
           'Content-Type': 'application/json'
         }
     }
-    axios.post('http://192.168.0.117:8000/obtain-auth-token/',
+    axios.post('http://10.0.1.1:8000/obtain-auth-token/',
       {
         username: datos.email,
         password: datos.id
@@ -227,7 +227,6 @@ const mapDispatchToProps = (dispatch) => ({
       config
     )
       .then(res => {
-        console.log(res);
         datos.token = res.data.token;
         dispatch({ type: 'LOGIN', data: datos })
       })
@@ -239,11 +238,11 @@ const mapDispatchToProps = (dispatch) => ({
     let config = {
       headers:
         {
-          'Authorization': 'Token ' + '38890ba9756ef71480a23109641fe1dc7dec6afb',
+          'Authorization': 'Token 38890ba9756ef71480a23109641fe1dc7dec6afb',
           'Content-Type': 'application/json'
         }
     }
-    axios.post('http://192.168.0.117:8000/obtain-auth-token/',
+    axios.post('http://10.0.1.1:8000/obtain-auth-token/',
       {
         username: datos.email,
         password: datos.id
@@ -251,7 +250,6 @@ const mapDispatchToProps = (dispatch) => ({
       config
     )
       .then(res => {
-        console.log(res);
         datos.token = res.data.token;
         dispatch({ type: 'LOGIN', data: datos })
       })

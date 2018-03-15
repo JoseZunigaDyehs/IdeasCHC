@@ -25,6 +25,9 @@ export const creado = (state = null, action) => {
     case 'ERROR_CREATED_':
       nuevoEstado = 'No se ha podido crear la idea';
       return nuevoEstado;      
+    case 'CLEAR_MENSAJE':
+      nuevoEstado = null;
+      return nuevoEstado;      
     default:
       return state;
   }
