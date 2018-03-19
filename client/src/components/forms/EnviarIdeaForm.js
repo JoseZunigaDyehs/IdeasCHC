@@ -120,7 +120,7 @@ const EnviarIdeaForm = (props) => {
         }
     }
     //ENVIAR USUARIO A DJANGO
-    axios.post('http://10.0.1.1:8000/users/', {
+    axios.post('https://10.0.1.1:8000/users/', {
       username: user._profile.email,
       email: user._profile.email,
       password: user._profile.id,
@@ -218,7 +218,7 @@ const mapDispatchToProps = (dispatch) => ({
           'Content-Type': 'application/json'
         }
     }
-    axios.post('http://10.0.1.1:8000/obtain-auth-token/',
+    axios.post('https://10.0.1.1:8000/obtain-auth-token/',
       {
         username: datos.email,
         password: datos.id
@@ -241,7 +241,7 @@ const mapDispatchToProps = (dispatch) => ({
           'Content-Type': 'application/json'
         }
     }
-    axios.post('http://10.0.1.1:8000/obtain-auth-token/',
+    axios.post('https://10.0.1.1:8000/obtain-auth-token/',
       {
         username: datos.email,
         password: datos.id

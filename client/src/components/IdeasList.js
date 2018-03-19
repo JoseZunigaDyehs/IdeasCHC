@@ -99,9 +99,9 @@ const urlPaginadorCategoria = (cantidad) => {
   let activos = document.getElementsByClassName('active')
   let categoria = activos['0'].dataset.cat
   categoria = parseInt(categoria, 10)
-  let url = `http://10.0.1.1:8000/ideas/?limit=4&offset=${cantidad}`
+  let url = `https://10.0.1.1:8000/ideas/?limit=4&offset=${cantidad}`
   if (categoria !== 0) {
-    url = `http://10.0.1.1:8000/ideas/?category=${categoria}&limit=4&offset=${cantidad}`
+    url = `https://10.0.1.1:8000/ideas/?category=${categoria}&limit=4&offset=${cantidad}`
   }
   return url
 }
@@ -115,7 +115,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getPostsByCategoria: (idCategoria) => {
-      axios.get(`http://10.0.1.1:8000/ideas/?category=${idCategoria}`)
+      axios.get(`https://10.0.1.1:8000/ideas/?category=${idCategoria}`)
         .then((res) => {
           dispatch({ type: "DATA_CLEAR" })
           dispatch({ type: "DATA_LOADER", data: res.data })
@@ -127,7 +127,7 @@ const mapDispatchToProps = (dispatch) => {
         })
     },
     getAllPosts: () => {
-      axios.get(`http://10.0.1.1:8000/ideas/`)
+      axios.get(`https://10.0.1.1:8000/ideas/`)
         .then((res) => {
           dispatch({ type: "DATA_CLEAR" });
           dispatch({ type: "DATA_LOADER", data: res.data });

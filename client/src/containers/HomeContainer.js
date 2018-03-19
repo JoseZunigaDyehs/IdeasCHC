@@ -102,7 +102,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getCountIdeas: () => {
-      axios.get('http://10.0.1.1:8000/ideas/count/')
+      axios.get('https://10.0.1.1:8000/ideas/count/')
         .then(res => {
           dispatch({ type: 'COUNT_IDEAS', data: res.data.ideas_count })
           MostrarEstadisticas(res.data.ideas_count, 0, 'totalIdeas')
@@ -116,7 +116,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch({ type: 'CLEAR_COUNT_USERS' })
     },
     getCountUsers: () => {
-      axios.get('http://10.0.1.1:8000/users/count/')
+      axios.get('https://10.0.1.1:8000/users/count/')
         .then(res => {
           dispatch({ type: 'COUNT_USERS', data: res.data.users_count })
           MostrarEstadisticas(res.data.users_count, 0, 'totalParticipantes')

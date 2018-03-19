@@ -51,7 +51,7 @@ const mapDispatchToProps = (dispatch) => {
         })
     },
     getAllPosts: () => {
-      axios.get(`http://10.0.1.1:8000/ideas/`)
+      axios.get(`https://10.0.1.1:8000/ideas/`)
         .then((res) => {
           dispatch({ type: "DATA_LOADER", data: res.data });
           document.getElementsByClassName('todas')['0'].classList.add('active')

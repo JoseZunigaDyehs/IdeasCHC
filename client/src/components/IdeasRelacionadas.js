@@ -56,7 +56,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         getPostsByCategoria: (idCategoria) => {
-            axios.get(`http://10.0.1.1:8000/ideas/?category=${idCategoria}`)
+            axios.get(`https://10.0.1.1:8000/ideas/?category=${idCategoria}`)
               .then((res) => {
                 dispatch({ type: "DATA_LOADER", data: res.data })
               })
