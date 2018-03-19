@@ -6,7 +6,7 @@ import { reset } from 'redux-form'
 
 const Login = (props) => {
   const funcionForm = (datos) => {
-    console.log('object');
+    //console.log('object');
 
     axios.post('https://blog-api-u.herokuapp.com/v1/login', {
       login: {
@@ -16,7 +16,7 @@ const Login = (props) => {
     }
     )
       .then((res) => {
-        console.log(res.data)
+        //console.log(res.data)
         props.login(res.data)
         let linkHome = document.getElementById('home')
         let evObj = document.createEvent('Events');
@@ -24,7 +24,7 @@ const Login = (props) => {
         linkHome.dispatchEvent(evObj);
       })
       .catch(err => {
-        console.log(err)
+        //console.log(err)
         props.errorLogin(err)
       })
   }

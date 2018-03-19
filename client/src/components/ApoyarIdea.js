@@ -86,7 +86,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
           }
         })
         .catch(err => {
-          console.log(err)
+          //console.log(err)
         })
     },
     logeo: (datos) => {
@@ -109,7 +109,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
           dispatch({ type: 'LOGIN', data: datos })
         })
         .catch(err => {
-          console.log(err);
+          //console.log(err);
         })
     },
     obtenerToken: (datos) => {
@@ -132,7 +132,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
           dispatch({ type: 'LOGIN', data: datos })
         })
         .catch(err => {
-          console.log(err);
+          //console.log(err);
         })
     },
     errorLogin: (err) => {

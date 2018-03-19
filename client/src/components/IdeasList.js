@@ -123,7 +123,7 @@ const mapDispatchToProps = (dispatch) => {
           dispatch({ type: 'CLEAR_PAGINADOR' })
         })
         .catch((err) => {
-          console.log(err);
+          //console.log(err);
         })
     },
     getAllPosts: () => {
@@ -134,7 +134,7 @@ const mapDispatchToProps = (dispatch) => {
           limpiarActivos(0);
         })
         .catch((err) => {
-          console.log(err);
+         // console.log(err);
         })
     },
     cargarMas: (cantidad) => {
@@ -146,7 +146,7 @@ const mapDispatchToProps = (dispatch) => {
           dispatch({ type: "DATA_LOADER", data: res.data })
         })
         .catch(err => {
-          console.log(err);
+         // console.log(err);
         })
     },
     limpiarPaginador: () => {

@@ -24,7 +24,7 @@ const Main = (props) => {
         document.documentElement.scrollTop = 0;
       })
       .catch(err => {
-        console.log(err)
+        //console.log(err)
         props.props.error()
         document.body.scrollTop = 0;
         document.documentElement.scrollTop = 0;
@@ -112,7 +112,7 @@ const mapDispatchToProps = (dispatch) => {
         }
         )
         .catch(err => {
-          console.log(err)
+          //console.log(err)
         })
     },
     limpiarMensaje: () => {

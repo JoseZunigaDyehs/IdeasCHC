@@ -23,7 +23,6 @@ class Home extends Component {
         </div>
       )
     });
-    console.log('enAllPosts de la funcion del cmp');
     return Posts;
   }
 
@@ -39,23 +38,20 @@ class Home extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log('en mapState');
   return {
     allPosts: state.allPost
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
-  console.log('mapDispatch');
   return {
     getAllPosts: () => { 
       axios.get('https://blog-api-u.herokuapp.com/v1/posts')
       .then((res)=>{
-        console.log(res.data);
         dispatch({type:"DATA_LOADER",data: res.data});
       })
       .catch((err)=>{
-        console.log(err);
+        //console.log(err);
       })
     },
     clear: ()=>{

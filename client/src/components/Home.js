@@ -56,7 +56,7 @@ const mapDispatchToProps = (dispatch) => {
         dispatch({type:"DATA_LOADER",data: res.data});
       })
       .catch((err)=>{
-        console.log(err);
+        //console.log(err);
       })
     },
     clear: ()=>{

@@ -173,7 +173,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
           dispatch({ type: 'CLEAR_ERROR_GET_POST' })
         })
         .catch(err => {
-          console.log(err)
+          //console.log(err)
           dispatch({ type: 'ERROR_GET_POST' })
         })
     },
@@ -189,7 +189,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
           dispatch({ type: "DATA_LOADER", data: res.data })
         })
         .catch((err) => {
-          console.log(err);
+          //console.log(err);
         })
     }
   }

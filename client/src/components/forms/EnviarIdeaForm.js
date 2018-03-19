@@ -107,7 +107,6 @@ const renderTextarea = ({
 
 const EnviarIdeaForm = (props) => {
 
-  console.log('Enviar IDEA ', props)
   const { handleSubmit, submitting } = props
 
   //LOGIN
@@ -139,7 +138,7 @@ const EnviarIdeaForm = (props) => {
           props.obtenerToken(user._profile);
           props.categorias.props.getCategorias()
         } else {
-          console.log(err);
+          //console.log(err);
         }
       });
   }
@@ -231,7 +230,7 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch({ type: 'LOGIN', data: datos })
       })
       .catch(err => {
-        console.log(err);
+        //console.log(err);
       })
   },
   obtenerToken: (datos) => {
@@ -254,7 +253,7 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch({ type: 'LOGIN', data: datos })
       })
       .catch(err => {
-        console.log(err);
+        //console.log(err);
       })
   },
   errorLogin: (err) => {

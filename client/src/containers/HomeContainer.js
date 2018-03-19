@@ -108,7 +108,7 @@ const mapDispatchToProps = (dispatch) => {
           MostrarEstadisticas(res.data.ideas_count, 0, 'totalIdeas')
         })
         .catch(err => {
-          console.log(err);
+          //console.log(err);
         })
     },
     clear: () => {
@@ -122,7 +122,7 @@ const mapDispatchToProps = (dispatch) => {
           MostrarEstadisticas(res.data.users_count, 0, 'totalParticipantes')
         })
         .catch(err => {
-          console.log(err);
+//console.log(err);
         })
     }
   }

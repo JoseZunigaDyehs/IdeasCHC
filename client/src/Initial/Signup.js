@@ -6,7 +6,7 @@ import {reset} from 'redux-form'
 
 const Signup = (props) => {
   const funcionForma = (datos) => {
-    console.log(datos)
+    //console.log(datos)
     axios.post('https://blog-api-u.herokuapp.com/users',{
       user: {
         name: datos.username,

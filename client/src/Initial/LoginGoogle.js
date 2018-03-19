@@ -5,7 +5,7 @@ import GoogleLogin from 'react-google-login';
 class LoginGoogle extends Component {
   
   responseGoogle = (response) => {
-    console.log('goooooogle: ',response);
+    //console.log('goooooogle: ',response);
   }
 
   render(){
