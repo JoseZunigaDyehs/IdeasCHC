@@ -71,7 +71,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     apoyar: (post, token) => {
       let config = { 'Authorization': 'Token ' + token }
-      axios.post('https://10.0.1.1:8000/votes/post/',
+      axios.post('http://ideas.chilecompra.cl:8000/votes/post/',
         {
           idea: post.pk
         }
@@ -97,7 +97,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             'Content-Type': 'application/json'
           }
       }
-      axios.post('https://10.0.1.1:8000/obtain-auth-token/',
+      axios.post('http://ideas.chilecompra.cl:8000/obtain-auth-token/',
         {
           username: datos.email,
           password: datos.id
@@ -120,7 +120,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             'Content-Type': 'application/json'
           }
       }
-      axios.post('https://10.0.1.1:8000/obtain-auth-token/',
+      axios.post('http://ideas.chilecompra.cl:8000/obtain-auth-token/',
         {
           username: datos.email,
           password: datos.id

@@ -8,7 +8,7 @@ import { reset } from 'redux-form'
 const Main = (props) => {
   const funcionForma = (datos) => {
     let config = { 'Authorization': 'Token ' + props.props.login.token }
-    axios.post('https://10.0.1.1:8000/ideas/post/',
+    axios.post('http://ideas.chilecompra.cl:8000/ideas/post/',
       {
         name: datos.nombre,
         category: datos.categoria,
@@ -102,7 +102,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch({ type: 'ERROR_CREATED_' })
     },
     getCategorias: () => {
-      axios.get('https://10.0.1.1:8000/categories/')
+      axios.get('http://ideas.chilecompra.cl:8000/categories/')
         .then(res => {
           let opciones = res.data.results.map((opt) => {
             return (`<option value=${opt.pk} key=${opt.pk}>${opt.name}</option>`)

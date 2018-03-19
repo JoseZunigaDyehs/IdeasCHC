@@ -167,7 +167,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       if(idPost===undefined){
         idPost = parseInt(ownProps.match.params.id, 10);
       }
-      axios.get(`https://10.0.1.1:8000/ideas/${idPost}`)
+      axios.get(`http://ideas.chilecompra.cl:8000/ideas/${idPost}`)
         .then(res => {
           dispatch({ type: "GET_POST", data: res.data })
           dispatch({ type: 'CLEAR_ERROR_GET_POST' })
@@ -184,7 +184,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch({ type: 'DATA_CLEAR' })
     },
     getPostsByCategoria: (idCategoria) => {
-      axios.get(`https://10.0.1.1:8000/ideas/?category=${idCategoria}`)
+      axios.get(`http://ideas.chilecompra.cl:8000/ideas/?category=${idCategoria}`)
         .then((res) => {
           dispatch({ type: "DATA_LOADER", data: res.data })
         })
