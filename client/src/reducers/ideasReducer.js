@@ -20,7 +20,7 @@ export const creado = (state = null, action) => {
 
   switch (action.type) {
     case 'CREATED_':
-      nuevoEstado = 'Idea creada'
+      nuevoEstado = 'Tu idea ha sido compartida'
       return nuevoEstado; 
     case 'ERROR_CREATED_':
       nuevoEstado = 'No se ha podido crear la idea';

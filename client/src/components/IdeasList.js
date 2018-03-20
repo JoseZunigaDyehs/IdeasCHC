@@ -55,14 +55,14 @@ class IdeasList extends Component {
               <div className='col-md-3 py-2 filtros todas' data-cat='0' onClick={this.filtrarIdeas.bind(this)}>
                 <p className='' data-cat='0' onClick={this.filtrarIdeas.bind(this)}>TODAS</p>
               </div>
-              <div className='col-md-3 py-2 filtros fomento' data-cat='1' onClick={this.filtrarIdeas.bind(this)}>
-                <p className='' data-cat='1' onClick={this.filtrarIdeas.bind(this)}>FOMENTO A LAS PYMES</p>
+              <div className='col-md-3 py-2 filtros fomento' data-cat='2' onClick={this.filtrarIdeas.bind(this)}>
+                <p className='' data-cat='2' onClick={this.filtrarIdeas.bind(this)}>FOMENTO A LAS PYMES</p>
               </div>
-              <div className='col-md-3 py-2 filtros mejoras' data-cat='3' onClick={this.filtrarIdeas.bind(this)}>
-                <p className='' data-cat='3' onClick={this.filtrarIdeas.bind(this)}>MEJORAS A MERCADO PÚBLICO</p>
+              <div className='col-md-3 py-2 filtros mejoras' data-cat='1' onClick={this.filtrarIdeas.bind(this)}>
+                <p className='' data-cat='1' onClick={this.filtrarIdeas.bind(this)}>MEJORAS A MERCADO PÚBLICO</p>
               </div>
-              <div className='col-md-3 py-2 filtros ideas' data-cat='2' onClick={this.filtrarIdeas.bind(this)}>
-                <p className='' data-cat='2' onClick={this.filtrarIdeas.bind(this)}>IDEAS INNOVADORAS</p>
+              <div className='col-md-3 py-2 filtros ideas' data-cat='3' onClick={this.filtrarIdeas.bind(this)}>
+                <p className='' data-cat='3' onClick={this.filtrarIdeas.bind(this)}>IDEAS INNOVADORAS</p>
               </div>
           </div>
           <div className="row pt-3">
@@ -99,9 +99,9 @@ const urlPaginadorCategoria = (cantidad) => {
   let activos = document.getElementsByClassName('active')
   let categoria = activos['0'].dataset.cat
   categoria = parseInt(categoria, 10)
-  let url = `http://ideas.chilecompra.cl:8000/ideas/?limit=4&offset=${cantidad}`
+  let url = `https://ideas.chilecompra.cl:8000/ideas/?limit=10&offset=${cantidad}`
   if (categoria !== 0) {
-    url = `http://ideas.chilecompra.cl:8000/ideas/?category=${categoria}&limit=4&offset=${cantidad}`
+    url = `https://ideas.chilecompra.cl:8000/ideas/?category=${categoria}&limit=10&offset=${cantidad}`
   }
   return url
 }
@@ -115,7 +115,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getPostsByCategoria: (idCategoria) => {
-      axios.get(`http://ideas.chilecompra.cl:8000/ideas/?category=${idCategoria}`)
+      axios.get(`https://ideas.chilecompra.cl:8000/ideas/?category=${idCategoria}`)
         .then((res) => {
           dispatch({ type: "DATA_CLEAR" })
           dispatch({ type: "DATA_LOADER", data: res.data })
@@ -123,11 +123,11 @@ const mapDispatchToProps = (dispatch) => {
           dispatch({ type: 'CLEAR_PAGINADOR' })
         })
         .catch((err) => {
-          //console.log(err);
+          console.log(err);
         })
     },
     getAllPosts: () => {
-      axios.get(`http://ideas.chilecompra.cl:8000/ideas/`)
+      axios.get(`https://ideas.chilecompra.cl:8000/ideas/`)
         .then((res) => {
           dispatch({ type: "DATA_CLEAR" });
           dispatch({ type: "DATA_LOADER", data: res.data });
@@ -138,7 +138,7 @@ const mapDispatchToProps = (dispatch) => {
         })
     },
     cargarMas: (cantidad) => {
-      cantidad = cantidad + 4 //SE AUMENTA EL PAGINADOR EN 4
+      cantidad = cantidad + 10 //SE AUMENTA EL PAGINADOR EN 4
       dispatch({ type: 'PAGINADOR', data: cantidad })
       const url = urlPaginadorCategoria(cantidad)
       axios.get(url)

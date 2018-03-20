@@ -8,7 +8,7 @@ import { reset } from 'redux-form'
 const Main = (props) => {
   const funcionForma = (datos) => {
     let config = { 'Authorization': 'Token ' + props.props.login.token }
-    axios.post('http://ideas.chilecompra.cl:8000/ideas/post/',
+    axios.post('https://ideas.chilecompra.cl:8000/ideas/post/',
       {
         name: datos.nombre,
         category: datos.categoria,
@@ -24,7 +24,7 @@ const Main = (props) => {
         document.documentElement.scrollTop = 0;
       })
       .catch(err => {
-        //console.log(err)
+        console.log(err)
         props.props.error()
         document.body.scrollTop = 0;
         document.documentElement.scrollTop = 0;
@@ -102,7 +102,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch({ type: 'ERROR_CREATED_' })
     },
     getCategorias: () => {
-      axios.get('http://ideas.chilecompra.cl:8000/categories/')
+      axios.get('https://ideas.chilecompra.cl:8000/categories/')
         .then(res => {
           let opciones = res.data.results.map((opt) => {
             return (`<option value=${opt.pk} key=${opt.pk}>${opt.name}</option>`)
@@ -112,7 +112,7 @@ const mapDispatchToProps = (dispatch) => {
         }
         )
         .catch(err => {
-          //console.log(err)
+          console.log(err)
         })
     },
     limpiarMensaje: () => {

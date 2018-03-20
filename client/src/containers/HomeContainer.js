@@ -10,7 +10,7 @@ const TextoMain = () => (
     <div className='row justify-content-center'>
       <div className="d-flex flex-column col-md-8 text-center pt-5">
         <h1 className='mb-4'>¿Tienes una idea para mejorar Mercado Público?</h1>
-        <p className='mb-4'>Te proponemos un espacio de conversación sobre mejoras e ideas para que juntos, podamos mejorar la forma de comprar y vender en el Estado.</p>
+        <p className='mb-4 fnt-20'>Te proponemos un espacio de conversación sobre mejoras e ideas para que juntos, podamos mejorar la forma de comprar y vender en el Estado.</p>
       </div>
     </div>
   </div>
@@ -102,13 +102,13 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getCountIdeas: () => {
-      axios.get('http://ideas.chilecompra.cl:8000/ideas/count/')
+      axios.get('https://ideas.chilecompra.cl:8000/ideas/count/')
         .then(res => {
           dispatch({ type: 'COUNT_IDEAS', data: res.data.ideas_count })
           MostrarEstadisticas(res.data.ideas_count, 0, 'totalIdeas')
         })
         .catch(err => {
-          //console.log(err);
+          console.log(err);
         })
     },
     clear: () => {
@@ -116,13 +116,13 @@ const mapDispatchToProps = (dispatch) => {
       dispatch({ type: 'CLEAR_COUNT_USERS' })
     },
     getCountUsers: () => {
-      axios.get('http://ideas.chilecompra.cl:8000/users/count/')
+      axios.get('https://ideas.chilecompra.cl:8000/users/count/')
         .then(res => {
           dispatch({ type: 'COUNT_USERS', data: res.data.users_count })
           MostrarEstadisticas(res.data.users_count, 0, 'totalParticipantes')
         })
         .catch(err => {
-//console.log(err);
+console.log(err);
         })
     }
   }

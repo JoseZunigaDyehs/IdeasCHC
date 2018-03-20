@@ -47,11 +47,11 @@ const mapDispatchToProps = (dispatch) => {
           dispatch({ type: "DATA_LOADER", data: res.data.posts });
         })
         .catch((err) => {
-          //console.log(err);
+          console.log(err);
         })
     },
     getAllPosts: () => {
-      axios.get(`http://ideas.chilecompra.cl:8000/ideas/`)
+      axios.get(`https://ideas.chilecompra.cl:8000/ideas/`)
         .then((res) => {
           dispatch({ type: "DATA_LOADER", data: res.data });
           document.getElementsByClassName('todas')['0'].classList.add('active')

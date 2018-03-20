@@ -56,13 +56,13 @@ const fechaCorrecta = (fecha) => {
 const pintarCategoria = (categoria) => {
   let clase = 'dvIdeaCategoria d-flex justify-content-center align-items-center ';
   switch (categoria) {
-    case 1: //Plataforma
+    case 2: //Plataforma
       clase = clase + 'bg-naranja'
       break;
-    case 2: //Normativa ===== Innovacion
+    case 3: //Normativa ===== Innovacion
       clase = clase + 'bg-azul'
       break;
-    case 3: //CM ====== Fomento Pymes
+    case 1: //CM ====== Fomento Pymes
       clase = clase + 'bg-rosa'
       break;
 
@@ -88,7 +88,7 @@ class Idea extends Component {
 
   render() {
 
-    const ideaTitle = this.props.idea.name.substring(0, 100)
+    const ideaTitle = this.props.idea.name.substring(0, 90)
 
     let fecha = '06-06-2018'
     if (this.props.idea.created !== '') {
@@ -107,7 +107,7 @@ class Idea extends Component {
             <div className="d-flex justify-content-between align-items-center">
               <div className="w-90 mb-1">
                 <p className='fnt-14 f-w-700 text-uppercase'>{this.props.idea.category.name}</p>
-                <p>{ideaTitle} </p>
+                <p className='fnt-17'>{ideaTitle} </p>
               </div>
               <div className="d-flex c-gris align-items-center">
                 <i className="far fa-thumbs-up mr-1"></i>

@@ -59,7 +59,7 @@ const Ideas = (props) => {
   if (props.props.ideas['0'] === undefined) {
     props.props.ideas.concat(IdeaPrototipo);
   }
-  
+
   return (
     <section className="container mb-5">
       <div className="text-center pt-3 pb-4">
@@ -133,11 +133,15 @@ class IdeaContainer extends Component {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
     if (this.props.error === '') {
+      if (this.props.login !== null && this.props.apoyo !== 0) {
+        this.props.getVotoIdea(this.props.post.pk,this.props.login.id);
+      }
+
       return (
         <main>
           <Main post={this.props} />
           <Ideas props={this.props} />
-          <IdeaAportar />
+          <IdeaAportar/>
         </main>
       )
     } else {
@@ -157,23 +161,25 @@ const mapStateToProps = (state) => {
     post: state.showPost,
     error: state.errorShowPost,
     ideas: state.allPost,
-    contador: contador
+    contador: contador,
+    login: state.login,
+    apoyo: state.apoyo
   }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getPost: (idPost) => {
-      if(idPost===undefined){
+      if (idPost === undefined) {
         idPost = parseInt(ownProps.match.params.id, 10);
       }
-      axios.get(`http://ideas.chilecompra.cl:8000/ideas/${idPost}`)
+      axios.get(`https://ideas.chilecompra.cl:8000/ideas/${idPost}`)
         .then(res => {
           dispatch({ type: "GET_POST", data: res.data })
           dispatch({ type: 'CLEAR_ERROR_GET_POST' })
         })
         .catch(err => {
-          //console.log(err)
+          console.log(err)
           dispatch({ type: 'ERROR_GET_POST' })
         })
     },
@@ -184,12 +190,26 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch({ type: 'DATA_CLEAR' })
     },
     getPostsByCategoria: (idCategoria) => {
-      axios.get(`http://ideas.chilecompra.cl:8000/ideas/?category=${idCategoria}`)
+      axios.get(`https://ideas.chilecompra.cl:8000/ideas/?category=${idCategoria}`)
         .then((res) => {
           dispatch({ type: "DATA_LOADER", data: res.data })
         })
         .catch((err) => {
-          //console.log(err);
+          console.log(err);
+        })
+    },
+    getVotoIdea: (_ideaId,_userId) => {
+      let ideaId = parseInt(_ideaId)
+      let userId = parseInt(_userId)
+      axios.post('https://ideas.chilecompra.cl:8000/votes/ideapost/',
+        { idea: ideaId, user: userId }
+      )
+        .then(res => {
+          console.log(res);
+          dispatch({ type: 'GET_APOYO', data: res.data })
+        })
+        .catch(err => {
+          console.log(err);
         })
     }
   }

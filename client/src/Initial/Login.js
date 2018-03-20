@@ -24,7 +24,7 @@ const Login = (props) => {
         linkHome.dispatchEvent(evObj);
       })
       .catch(err => {
-        //console.log(err)
+        console.log(err)
         props.errorLogin(err)
       })
   }

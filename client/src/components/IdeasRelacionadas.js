@@ -56,12 +56,12 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         getPostsByCategoria: (idCategoria) => {
-            axios.get(`http://ideas.chilecompra.cl:8000/ideas/?category=${idCategoria}`)
+            axios.get(`https://ideas.chilecompra.cl:8000/ideas/?category=${idCategoria}`)
               .then((res) => {
                 dispatch({ type: "DATA_LOADER", data: res.data })
               })
               .catch((err) => {
-                //console.log(err);
+                console.log(err);
               })
           }
     }

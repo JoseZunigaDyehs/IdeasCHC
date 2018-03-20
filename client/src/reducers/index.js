@@ -5,6 +5,7 @@ import { session, userCreated } from './session'
 import { spinner } from './spinner'
 import { countIdeas, countUsers } from './estadisticas'
 import { getCategorias } from './categorias'
+import { apoyo } from './apoyo'
 
 export default combineReducers({
   allPost,
@@ -18,5 +19,6 @@ export default combineReducers({
   countIdeas,
   countUsers,
   paginador,
-  getCategorias
+  getCategorias,
+  apoyo
 })

@@ -115,12 +115,12 @@ const EnviarIdeaForm = (props) => {
     let config = {
       headers:
         {
-          'Authorization': 'Token 38890ba9756ef71480a23109641fe1dc7dec6afb',
+          'Authorization': 'Token e5cec21fd7fdf6e5970bfb41b9e6a0cc6ca96693',
           'Content-Type': 'application/json'
         }
     }
     //ENVIAR USUARIO A DJANGO
-    axios.post('http://ideas.chilecompra.cl:8000/users/', {
+    axios.post('https://ideas.chilecompra.cl:8000/users/', {
       username: user._profile.email,
       email: user._profile.email,
       password: user._profile.id,
@@ -138,7 +138,7 @@ const EnviarIdeaForm = (props) => {
           props.obtenerToken(user._profile);
           props.categorias.props.getCategorias()
         } else {
-          //console.log(err);
+          console.log(err);
         }
       });
   }
@@ -202,7 +202,6 @@ const EnviarIdeaForm = (props) => {
   }
 }
 
-
 const mapStateToProps = (state) => ({
   login: state.login,
 
@@ -214,11 +213,11 @@ const mapDispatchToProps = (dispatch) => ({
     let config = {
       headers:
         {
-          'Authorization': 'Token 38890ba9756ef71480a23109641fe1dc7dec6afb',
+          'Authorization': 'Token e5cec21fd7fdf6e5970bfb41b9e6a0cc6ca96693',
           'Content-Type': 'application/json'
         }
     }
-    axios.post('http://ideas.chilecompra.cl:8000/obtain-auth-token/',
+    axios.post('https://ideas.chilecompra.cl:8000/obtain-auth-token/',
       {
         username: datos.email,
         password: datos.id
@@ -230,18 +229,18 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch({ type: 'LOGIN', data: datos })
       })
       .catch(err => {
-        //console.log(err);
+        console.log(err);
       })
   },
   obtenerToken: (datos) => {
     let config = {
       headers:
         {
-          'Authorization': 'Token 38890ba9756ef71480a23109641fe1dc7dec6afb',
+          'Authorization': 'Token e5cec21fd7fdf6e5970bfb41b9e6a0cc6ca96693',
           'Content-Type': 'application/json'
         }
     }
-    axios.post('http://ideas.chilecompra.cl:8000/obtain-auth-token/',
+    axios.post('https://ideas.chilecompra.cl:8000/obtain-auth-token/',
       {
         username: datos.email,
         password: datos.id
@@ -253,7 +252,7 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch({ type: 'LOGIN', data: datos })
       })
       .catch(err => {
-        //console.log(err);
+        console.log(err);
       })
   },
   errorLogin: (err) => {

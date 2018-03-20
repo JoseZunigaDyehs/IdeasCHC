@@ -7,14 +7,48 @@ class ApoyarIdea extends Component {
 
   postApoyo = (e, post) => {
     if (e !== undefined) {
+
       const token = this.props.login.token;
-      this.props.apoyar(post, token);
+      this.props.apoyar(post, token, this.props.getPost, this.props.getVotoIdea,this.props.login.id);
     }
+  }
+
+  logear = (user) => {
+
+    this.props.logeo(user, this.props.post.pk, this.props.getVotoIdea);
   }
 
   //LOGIN
   handleSocialLogin = (user) => {
-    this.props.logeo(user._profile);
+
+    let config = {
+      headers:
+        {
+          'Authorization': 'Token e5cec21fd7fdf6e5970bfb41b9e6a0cc6ca96693',
+          'Content-Type': 'application/json'
+        }
+    }
+    //ENVIAR USUARIO A DJANGO
+    axios.post('https://ideas.chilecompra.cl:8000/users/', {
+      username: user._profile.email,
+      email: user._profile.email,
+      password: user._profile.id,
+      first_name: user._profile.firstName,
+      last_name: user._profile.lastName
+    },
+      config
+    )
+      .then(res => {
+        this.props.logeo(user, this.props.post.pk, this.props.getVotoIdea)
+      })
+      .catch(err => {
+        if (err.response.data.username["0"] === 'Ya existe un usuario con este nombre.') {
+          this.props.obtenerToken(user._profile,this.props.post.pk, this.props.getVotoIdea);
+        } else {
+          console.log(err);
+        }
+      });
+
   }
 
   handleSocialLoginFailure = (err) => {
@@ -44,16 +78,26 @@ class ApoyarIdea extends Component {
         </aside>
       )
     } else {
-      return (
-        <aside className="col-md-5" >
-          <div className="d-flex back-gris-claro flex-column align-items-center justify-content-center py-6 px-4">
-            <h4 className="f-w-300 text-center mb-4">¿Crees que esta idea es positiva para Mercado Público?</h4>
-            <button className="btn btn-primary py-3 px-5 d-flex align-items-center" onClick={(e) => this.postApoyo(e, this.props.post)}>APOYAR IDEA
-        <i className=" ml-2 far fa-thumbs-up fnt-24"></i>
-            </button>
-          </div>
-        </aside>
-      )
+      if (this.props.apoyo === 0) {
+        return (
+          <aside className="col-md-5" >
+            <div className="d-flex back-gris-claro flex-column align-items-center justify-content-center py-6 px-4">
+              <h4 className="f-w-300 text-center mb-4">¿Crees que esta idea es positiva para Mercado Público?</h4>
+              <button className="btn btn-primary py-3 px-5 d-flex align-items-center" onClick={(e) => this.postApoyo(e, this.props.post)}>APOYAR IDEA
+          <i className=" ml-2 far fa-thumbs-up fnt-24"></i>
+              </button>
+            </div>
+          </aside>
+        )
+      } else {
+        return (
+          <aside className="col-md-5" >
+            <div className="d-flex back-gris-claro flex-column align-items-center justify-content-center py-6 px-4">
+              <h4 className="f-w-300 text-center mb-4 c-pink">Ya haz a poyado esta idea</h4><i className="c-pink ml-2 far fa-thumbs-up fnt-24"></i>
+            </div>
+          </aside>
+        )
+      }
     }
   }
 }
@@ -62,16 +106,32 @@ class ApoyarIdea extends Component {
 const mapStateToProps = (state) => {
   return {
     login: state.login,
-    post: state.showPost
+    post: state.showPost,
+    apoyo: state.apoyo
   }
 }
 
 //ACCIONAR LOS DISPATCH, PASA UNA ACCION AL STORE
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    apoyar: (post, token) => {
+    getPost: (idPost) => {
+      if (idPost === undefined) {
+        idPost = parseInt(ownProps.match.params.id, 10);
+      }
+      axios.get(`https://ideas.chilecompra.cl:8000/ideas/${idPost}`)
+        .then(res => {
+          dispatch({ type: "GET_POST", data: res.data })
+          dispatch({ type: 'CLEAR_ERROR_GET_POST' })
+          dispatch({type:'DATA_CLEAR'})
+        })
+        .catch(err => {
+          console.log(err)
+          dispatch({ type: 'ERROR_GET_POST' })
+        })
+    },
+    apoyar: (post, token, getPost, getVoto, user) => {
       let config = { 'Authorization': 'Token ' + token }
-      axios.post('http://ideas.chilecompra.cl:8000/votes/post/',
+      axios.post('https://ideas.chilecompra.cl:8000/votes/post/',
         {
           idea: post.pk
         }
@@ -81,23 +141,51 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       )
         .then(res => {
           if (res.statusText === "Created") {
-            alert('apoyo agregado')
+
+            post.votes = post.votes + 1
             dispatch({ type: "GET_POST", data: post })
+            getVoto(post.pk,user)
+            getPost(post.pk)
           }
         })
         .catch(err => {
-          //console.log(err)
+          console.log(err)
         })
     },
-    logeo: (datos) => {
+    logeo: (datos, idPost, getVoto) => {
       let config = {
         headers:
           {
-            'Authorization': 'Token 38890ba9756ef71480a23109641fe1dc7dec6afb',
+            'Authorization': 'Token e5cec21fd7fdf6e5970bfb41b9e6a0cc6ca96693',
             'Content-Type': 'application/json'
           }
       }
-      axios.post('http://ideas.chilecompra.cl:8000/obtain-auth-token/',
+      axios.post('https://ideas.chilecompra.cl:8000/obtain-auth-token/',
+        {
+          username: datos.email,
+          password: datos.id
+        },
+        config
+      )
+        .then(res => {
+
+          datos.token = res.data.token;
+          dispatch({ type: 'LOGIN', data: datos })
+          getVoto(idPost, datos.id);
+        })
+        .catch(err => {
+          console.log(err);
+        })
+    },
+    obtenerToken: (datos, idPost, getVoto) => {
+      let config = {
+        headers:
+          {
+            'Authorization': 'Token e5cec21fd7fdf6e5970bfb41b9e6a0cc6ca96693',
+            'Content-Type': 'application/json'
+          }
+      }
+      axios.post('https://ideas.chilecompra.cl:8000/obtain-auth-token/',
         {
           username: datos.email,
           password: datos.id
@@ -107,36 +195,28 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         .then(res => {
           datos.token = res.data.token;
           dispatch({ type: 'LOGIN', data: datos })
+          getVoto(idPost, datos.id);
         })
         .catch(err => {
-          //console.log(err);
-        })
-    },
-    obtenerToken: (datos) => {
-      let config = {
-        headers:
-          {
-            'Authorization': 'Token 38890ba9756ef71480a23109641fe1dc7dec6afb',
-            'Content-Type': 'application/json'
-          }
-      }
-      axios.post('http://ideas.chilecompra.cl:8000/obtain-auth-token/',
-        {
-          username: datos.email,
-          password: datos.id
-        },
-        config
-      )
-        .then(res => {
-          datos.token = res.data.token;
-          dispatch({ type: 'LOGIN', data: datos })
-        })
-        .catch(err => {
-          //console.log(err);
+          console.log(err);
         })
     },
     errorLogin: (err) => {
       dispatch({ type: 'LOGIN_ERROR', data: err })
+    },
+    getVotoIdea: (_ideaId, _userId) => {
+      
+      let ideaId = parseInt(_ideaId)
+      let userId = parseInt(_userId)
+      axios.post('https://ideas.chilecompra.cl:8000/votes/ideapost/',
+        { idea: ideaId, user: userId }
+      )
+        .then(res => {
+          dispatch({ type: 'GET_APOYO', data: res.data.has_voted })
+        })
+        .catch(err => {
+          console.log(err);
+        })
     }
   }
 }
