@@ -44,14 +44,22 @@ class IdeasList extends Component {
     if (this.props.ideas['0'] === undefined) {
       this.props.ideas.concat(IdeaPrototipo);
     }
+    let buttonMore = ''
+    if (this.props.count_posts !== -1 && this.props.count_posts>9) {
+      if (this.props.count_posts % 10 === 0) {
+        buttonMore = ''
+      } else {
+        buttonMore = <button className="btn btn-secondary mt-3 py-3 px-4" onClick={this.cargarMas.bind(this)}> + CARGAR MÁS IDEAS</button>
+      }
+    }
 
     return (
       <section className='py-4'>
         <div className="container mb-4">
           <div className='col-md-12 justify-content-center d-flex'>
-            <h2 id='tituloIdeas' className='mb-4'>Te invitamos a apoyar ideas en las siguientes áreas</h2>
+            {/* <h2 id='tituloIdeas' className='mb-4'>Te invitamos a apoyar ideas en las siguientes áreas</h2> */}
           </div>
-          <div className='d-flex mb-4 mt-3 row filtrosPadre mx-0'>
+          {/* <div className='d-flex mb-4 mt-3 row filtrosPadre mx-0'>
               <div className='col-md-3 py-2 filtros todas' data-cat='0' onClick={this.filtrarIdeas.bind(this)}>
                 <p className='' data-cat='0' onClick={this.filtrarIdeas.bind(this)}>TODAS</p>
               </div>
@@ -64,7 +72,7 @@ class IdeasList extends Component {
               <div className='col-md-3 py-2 filtros ideas' data-cat='3' onClick={this.filtrarIdeas.bind(this)}>
                 <p className='' data-cat='3' onClick={this.filtrarIdeas.bind(this)}>IDEAS INNOVADORAS</p>
               </div>
-          </div>
+          </div> */}
           <div className="row pt-3">
 
             {this.props.ideas.map(idea =>
@@ -75,8 +83,7 @@ class IdeasList extends Component {
             )}
           </div>
           <div className="col-md-12 text-center">
-
-            <button className="btn btn-secondary mt-3 py-3 px-4" onClick={this.cargarMas.bind(this)}> + CARGAR MÁS IDEAS</button>
+            {buttonMore}
           </div>
         </div>
       </section>
@@ -96,19 +103,27 @@ const limpiarActivos = (idCategoria) => {
 
 //LOGICA PARA CARGAR POR CATEGORIA
 const urlPaginadorCategoria = (cantidad) => {
-  let activos = document.getElementsByClassName('active')
-  let categoria = activos['0'].dataset.cat
-  categoria = parseInt(categoria, 10)
+  // let activos = document.getElementsByClassName('active')
+  // let categoria = activos['0'].dataset.cat
+  // categoria = parseInt(categoria, 10)
+  // let url = `https://ideas.chilecompra.cl:8000/ideas/?limit=10&offset=${cantidad}`
+  // if (categoria !== 0) {
+  //   url = `https://ideas.chilecompra.cl:8000/ideas/?category=${categoria}&limit=10&offset=${cantidad}`
+  // }
+
+  let categoria = 4
   let url = `https://ideas.chilecompra.cl:8000/ideas/?limit=10&offset=${cantidad}`
   if (categoria !== 0) {
     url = `https://ideas.chilecompra.cl:8000/ideas/?category=${categoria}&limit=10&offset=${cantidad}`
   }
+
   return url
 }
 
 const mapStateToProps = (state) => {
   return {
-    paginador: state.paginador
+    paginador: state.paginador,
+    count_posts: state.countPosts
   }
 }
 
@@ -134,7 +149,7 @@ const mapDispatchToProps = (dispatch) => {
           limpiarActivos(0);
         })
         .catch((err) => {
-         // console.log(err);
+          // console.log(err);
         })
     },
     cargarMas: (cantidad) => {
@@ -146,7 +161,7 @@ const mapDispatchToProps = (dispatch) => {
           dispatch({ type: "DATA_LOADER", data: res.data })
         })
         .catch(err => {
-         // console.log(err);
+          // console.log(err);
         })
     },
     limpiarPaginador: () => {

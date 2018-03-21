@@ -1,17 +1,18 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import EnviarIdeaForm from '../components/forms/EnviarIdeaForm'
+import EnviarIdeaFormRedux from '../components/forms/EnviarIdeaForm'
 import axios from 'axios'
 import { reset } from 'redux-form'
 
 
 const Main = (props) => {
   const funcionForma = (datos) => {
+
     let config = { 'Authorization': 'Token ' + props.props.login.token }
     axios.post('https://ideas.chilecompra.cl:8000/ideas/post/',
       {
         name: datos.nombre,
-        category: datos.categoria,
+        category: 4,
         content: datos.descripcion
       }
       , {
@@ -33,7 +34,7 @@ const Main = (props) => {
   return (
     <main>
       <section className="container pt-3">
-        <EnviarIdeaForm onSubmit={funcionForma} categorias={props}/>
+        <EnviarIdeaFormRedux onSubmit={funcionForma} categorias={props}/>
       </section>
     </main>
   )

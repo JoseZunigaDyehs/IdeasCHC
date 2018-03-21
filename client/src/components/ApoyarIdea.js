@@ -7,9 +7,8 @@ class ApoyarIdea extends Component {
 
   postApoyo = (e, post) => {
     if (e !== undefined) {
-
       const token = this.props.login.token;
-      this.props.apoyar(post, token, this.props.getPost, this.props.getVotoIdea,this.props.login.id);
+      this.props.apoyar(post, token, this.props.getPost, this.props.getVotoIdea,this.props.login.email);
     }
   }
 
@@ -78,7 +77,7 @@ class ApoyarIdea extends Component {
         </aside>
       )
     } else {
-      if (this.props.apoyo === 0) {
+      if (this.props.apoyo === 0 || this.props.apoyo === -1) {
         return (
           <aside className="col-md-5" >
             <div className="d-flex back-gris-claro flex-column align-items-center justify-content-center py-6 px-4">
@@ -93,7 +92,7 @@ class ApoyarIdea extends Component {
         return (
           <aside className="col-md-5" >
             <div className="d-flex back-gris-claro flex-column align-items-center justify-content-center py-6 px-4">
-              <h4 className="f-w-300 text-center mb-4 c-pink">Ya haz a poyado esta idea</h4><i className="c-pink ml-2 far fa-thumbs-up fnt-24"></i>
+              <h4 className="f-w-300 text-center mb-4 c-pink">Ya has apoyado esta idea</h4><i className="c-pink ml-2 far fa-thumbs-up fnt-24"></i>
             </div>
           </aside>
         )
@@ -141,10 +140,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       )
         .then(res => {
           if (res.statusText === "Created") {
-
             post.votes = post.votes + 1
             dispatch({ type: "GET_POST", data: post })
-            getVoto(post.pk,user)
+            
+            getVoto(post.pk, user)
             getPost(post.pk)
           }
         })
@@ -168,16 +167,14 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         config
       )
         .then(res => {
-
           datos.token = res.data.token;
           dispatch({ type: 'LOGIN', data: datos })
-          getVoto(idPost, datos.id);
         })
         .catch(err => {
           console.log(err);
         })
     },
-    obtenerToken: (datos, idPost, getVoto) => {
+    obtenerToken: (datos) => {
       let config = {
         headers:
           {
@@ -195,7 +192,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         .then(res => {
           datos.token = res.data.token;
           dispatch({ type: 'LOGIN', data: datos })
-          getVoto(idPost, datos.id);
         })
         .catch(err => {
           console.log(err);
@@ -207,12 +203,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     getVotoIdea: (_ideaId, _userId) => {
       
       let ideaId = parseInt(_ideaId)
-      let userId = parseInt(_userId)
       axios.post('https://ideas.chilecompra.cl:8000/votes/ideapost/',
-        { idea: ideaId, user: userId }
+        { idea: ideaId, user: _userId }
       )
         .then(res => {
-          dispatch({ type: 'GET_APOYO', data: res.data.has_voted })
+          dispatch({ type: 'GET_APOYO', data: res.data })
         })
         .catch(err => {
           console.log(err);

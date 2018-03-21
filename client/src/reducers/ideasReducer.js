@@ -8,12 +8,29 @@ export const allPost = (state = [], action) => {
       return nuevoEstado;
     case 'DATA_CLEAR':
       nuevoEstado = [];
-      return nuevoEstado;      
+      return nuevoEstado; 
     default:
       return state;
   }
 
 }
+
+export const countPosts = (state = -1, action) => {
+  var nuevoEstado = Object.assign({}, state);
+
+  switch (action.type) {
+    case 'COUNT_POSTS':
+      nuevoEstado = action.data;
+      return nuevoEstado;
+    case 'CLEAR_COUNT_POSTS':
+      nuevoEstado = -1;
+      return nuevoEstado; 
+    default:
+      return state;
+  }
+
+}
+
 
 export const creado = (state = null, action) => {
   var nuevoEstado = Object.assign({}, state);

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+// import '../img/bg.png';
 
 const fechaCorrecta = (fecha) => {
 
@@ -56,17 +57,20 @@ const fechaCorrecta = (fecha) => {
 const pintarCategoria = (categoria) => {
   let clase = 'dvIdeaCategoria d-flex justify-content-center align-items-center ';
   switch (categoria) {
-    case 2: //Plataforma
-      clase = clase + 'bg-naranja'
-      break;
-    case 3: //Normativa ===== Innovacion
-      clase = clase + 'bg-azul'
-      break;
-    case 1: //CM ====== Fomento Pymes
-      clase = clase + 'bg-rosa'
-      break;
-
+    // case 2: //Plataforma
+    //   clase = clase + 'bg-naranja'
+    //   break;
+    // case 3: //Normativa ===== Innovacion
+    //   clase = clase + 'bg-naranja'
+    //   break;
+    // case 1: //CM ====== Fomento Pymes
+    //   clase = clase + 'bg-naranja'
+    //   break;
+    // case 4: //CM ====== Fomento Pymes
+    //   clase = clase + 'bg-naranja'
+    //   break;
     default:
+      clase = clase + 'bg-azul'
       break;
   }
 
@@ -103,10 +107,12 @@ class Idea extends Component {
             <p className="m-0 text-uppercase"></p>
           </div>
           <div className="dvIdeaBody w-100 py-3 d-flex flex-column px-4 justify-content-between">
-            <p className="mb-0 text-small text-uppercase text-right f-w-700 l-s-1 c-gris mb-2">{fecha}</p>
+            {/* <p className="mb-0 text-small text-uppercase text-right f-w-700 l-s-1 c-gris mb-2">{fecha}</p> */}
+            <p className="fnt-14 f-w-700 text-uppercase">{fecha}</p>
+            
             <div className="d-flex justify-content-between align-items-center">
               <div className="w-90 mb-1">
-                <p className='fnt-14 f-w-700 text-uppercase'>{this.props.idea.category.name}</p>
+                {/* <p className='fnt-14 f-w-700 text-uppercase'>{this.props.idea.category.name}</p> */}
                 <p className='fnt-17'>{ideaTitle} </p>
               </div>
               <div className="d-flex c-gris align-items-center">
@@ -132,7 +138,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-
+    clearVoto: () => {
+      dispatch({ type: 'CLEAR_APOYO' })
+    },
   }
 }
 

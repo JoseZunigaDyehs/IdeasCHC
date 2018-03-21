@@ -16,12 +16,64 @@ const IdeaPrototipo =
     "content": ""
   }
 
+
+const fechaCorrecta = (fecha) => {
+
+  const nuevaFecha = fecha.substring(0, 10)
+  const dia = nuevaFecha.substring(8, 10)
+  let mes = nuevaFecha.substring(5, 7)
+  const anio = nuevaFecha.substring(0, 4)
+
+  switch (mes) {
+    case '01':
+      mes = 'ENERO';
+      break;
+    case '02':
+      mes = 'FEBRERO';
+      break;
+    case '03':
+      mes = 'MARZO';
+      break;
+    case '04':
+      mes = 'ABRIL';
+      break;
+    case '05':
+      mes = 'MAYO';
+      break;
+    case '06':
+      mes = 'JUNIO';
+      break;
+    case '07':
+      mes = 'JULIO';
+      break;
+    case '08':
+      mes = 'AGOSTO';
+      break;
+    case '09':
+      mes = 'SEPTIEMBRE';
+      break;
+    case '10':
+      mes = 'OCTUBRE';
+      break;
+    case '11':
+      mes = 'NOVIEMBRE';
+      break;
+    case '12':
+      mes = 'DICIEMBRE';
+      break;
+    default:
+  }
+
+  return dia + ' ' + mes + ' ' + anio;
+
+}
+
 const Article = (props) => {
 
   if (props.post.error === '') {
     let fecha = "";
-    if (props.post.post.created !== undefined) { fecha = props.post.post.created.substring(0, 10); }
-
+    if (props.post.post.created !== undefined) { fecha = fechaCorrecta(props.post.post.created) }
+debugger
     return (
       <article>
         <p className="m-0 c-gris fnt-14 text-right text-uppercase f-w-500">{fecha}</p>
@@ -133,15 +185,15 @@ class IdeaContainer extends Component {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
     if (this.props.error === '') {
-      if (this.props.login !== null && this.props.apoyo !== 0) {
-        this.props.getVotoIdea(this.props.post.pk,this.props.login.id);
+      if (this.props.login !== null && this.props.apoyo === -1 && this.props.post.pk !== undefined) {
+        this.props.getVotoIdea(this.props.post.pk, this.props.login.email);
       }
 
       return (
         <main>
           <Main post={this.props} />
           <Ideas props={this.props} />
-          <IdeaAportar/>
+          <IdeaAportar />
         </main>
       )
     } else {
@@ -177,6 +229,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         .then(res => {
           dispatch({ type: "GET_POST", data: res.data })
           dispatch({ type: 'CLEAR_ERROR_GET_POST' })
+          dispatch({ type: 'CLEAR_APOYO' })
         })
         .catch(err => {
           console.log(err)
@@ -198,14 +251,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
           console.log(err);
         })
     },
-    getVotoIdea: (_ideaId,_userId) => {
+    getVotoIdea: (_ideaId, _userId) => {
       let ideaId = parseInt(_ideaId)
-      let userId = parseInt(_userId)
       axios.post('https://ideas.chilecompra.cl:8000/votes/ideapost/',
-        { idea: ideaId, user: userId }
+        { idea: ideaId, user: _userId }
       )
         .then(res => {
-          console.log(res);
           dispatch({ type: 'GET_APOYO', data: res.data })
         })
         .catch(err => {
