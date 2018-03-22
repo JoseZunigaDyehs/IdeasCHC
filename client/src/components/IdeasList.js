@@ -55,7 +55,7 @@ class IdeasList extends Component {
 
     return (
       <section className='py-4'>
-        <div className="container mb-4">
+        <div className="container">
           <div className='col-md-12 justify-content-center d-flex'>
             {/* <h2 id='tituloIdeas' className='mb-4'>Te invitamos a apoyar ideas en las siguientes áreas</h2> */}
           </div>
@@ -130,6 +130,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getPostsByCategoria: (idCategoria) => {
+
       axios.get(`https://ideas.chilecompra.cl:8000/ideas/?category=${idCategoria}`)
         .then((res) => {
           dispatch({ type: "DATA_CLEAR" })
@@ -142,6 +143,7 @@ const mapDispatchToProps = (dispatch) => {
         })
     },
     getAllPosts: () => {
+
       axios.get(`https://ideas.chilecompra.cl:8000/ideas/`)
         .then((res) => {
           dispatch({ type: "DATA_CLEAR" });

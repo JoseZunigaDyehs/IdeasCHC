@@ -19,7 +19,6 @@ class ApoyarIdea extends Component {
 
   //LOGIN
   handleSocialLogin = (user) => {
-
     let config = {
       headers:
         {
@@ -28,12 +27,16 @@ class ApoyarIdea extends Component {
         }
     }
     //ENVIAR USUARIO A DJANGO
-    axios.post('https://ideas.chilecompra.cl:8000/users/', {
-      username: user._profile.email,
-      email: user._profile.email,
-      password: user._profile.id,
-      first_name: user._profile.firstName,
-      last_name: user._profile.lastName
+    axios.post('https://ideas.chilecompra.cl:8000/users/', 
+    {
+      user: {
+        username: user._profile.email,
+        first_name: user._profile.firstName,
+        last_name: user._profile.lastName,
+        email: user._profile.email,
+        password: user._profile.id
+      },
+      thumbnail: user._profile.profilePicURL
     },
       config
     )
@@ -41,7 +44,7 @@ class ApoyarIdea extends Component {
         this.props.logeo(user, this.props.post.pk, this.props.getVotoIdea)
       })
       .catch(err => {
-        if (err.response.data.username["0"] === 'Ya existe un usuario con este nombre.') {
+        if (err.response.data.user.username["0"] === 'Ya existe un usuario con este nombre.') {
           this.props.obtenerToken(user._profile,this.props.post.pk, this.props.getVotoIdea);
         } else {
           console.log(err);
@@ -68,6 +71,7 @@ class ApoyarIdea extends Component {
                 appId='178848131764-l6f61h1flr9rkqsilspj2ipc0bp00f1t.apps.googleusercontent.com'
                 onLoginSuccess={this.handleSocialLogin}
                 onLoginFailure={this.handleSocialLoginFailure}
+                autoLogin={true}
                 className='f-w-500 d-flex align-items-center py-3 px-5 btn btn-secondary'
               >
                 INGRESAR

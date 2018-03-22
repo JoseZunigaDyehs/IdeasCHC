@@ -16,7 +16,7 @@ const TextoMain = () => (
   </div>
 )
 
-const MostrarEstadisticas = (numero, num, id) => {
+const MostrarEstadisticas = (numero, num, id,spinner) => {
   if (document.getElementById(id) !== null) {
     setTimeout(() => {
       if (num === numero) {
@@ -63,8 +63,9 @@ const Estadisticas = (props) => {
 const Mensaje = () => (
   <section className='container-fluid back-pink c-white'>
     <div className='row justify-content-center py-4'>
-      <div className='col-md-6 d-flex py-4 text-center'>
-        <h4 className='m-0 mr-1 f-w-300 l-s-1' style={{'lineHeight': '2rem'}}>Las ideas <span className='f-w-700 c-pink p-1 px-2' style={{'padding':'3px 8px','backgroundColor':'rgba(255, 255, 255, 0.8)'}}>más votadas</span> serán revisadas para su implementación en Mercado Público</h4>
+      <div className='col-md-6 d-flex py-4 text-center flex-column'>
+        <h4 className='m-0 mr-1 f-w-300 l-s-1' style={{ 'lineHeight': '2rem' }}>Las ideas <span className='f-w-700 c-pink p-1 px-2' style={{ 'padding': '3px 8px', 'backgroundColor': 'rgba(255, 255, 255, 0.8)' }}>
+          más votadas</span> serán analizadas para evaluar su implementación en Mercado Público</h4>
       </div>
     </div>
   </section>
@@ -73,10 +74,12 @@ const Mensaje = () => (
 class HomeContainer extends Component {
 
   componentWillMount() {
-    this.props.getCountIdeas()
-    this.props.getCountUsers()
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
+  }
+  componentDidMount() {
+    this.props.getCountIdeas(this.props.spinner)
+    this.props.getCountUsers(this.props.spinner)
   }
 
   render() {
@@ -84,7 +87,6 @@ class HomeContainer extends Component {
       <main>
         <TextoMain />
         <Estadisticas props={this.props} />
-        {/* <hr class='linea-black'/> */}
         <Mensaje />
         <IdeasHomeContainer />
         <IdeaAportar />
@@ -96,7 +98,8 @@ class HomeContainer extends Component {
 const mapStateToProps = (state) => {
   return {
     countIdeas: state.countIdeas,
-    countUsers: state.countUsers
+    countUsers: state.countUsers,
+    spinner: state.spinner
   }
 }
 
@@ -123,7 +126,7 @@ const mapDispatchToProps = (dispatch) => {
           MostrarEstadisticas(res.data.users_count, 0, 'totalParticipantes')
         })
         .catch(err => {
-console.log(err);
+          console.log(err);
         })
     }
   }

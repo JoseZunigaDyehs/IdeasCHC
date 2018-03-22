@@ -39,23 +39,14 @@ const mapStateToProps = (state) => {
 //ACCIONAR LOS DISPATCH, PASA UNA ACCION AL STORE
 const mapDispatchToProps = (dispatch) => {
   return {
-    getAllPostsUser: (user_id, token) => {
-      dispatch({type: 'ON_SPINNER'})
-      let config = {'Authorization': 'Bearer' + token }
-      axios.get(`https://blog-api-u.herokuapp.com/users/${user_id}/posts`, {headers: config})
-        .then((res) => {
-          dispatch({ type: "DATA_LOADER", data: res.data.posts });
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-    },
     getAllPosts: () => {
+      dispatch({ type: 'ON_SPINNER' })
       axios.get(`https://ideas.chilecompra.cl:8000/ideas/`)
         .then((res) => {
           dispatch({ type: "DATA_LOADER", data: res.data });
           //document.getElementsByClassName('todas')['0'].classList.add('active')
           dispatch({type: 'COUNT_POSTS',data: res.data.count})
+          dispatch({ type: 'OFF_SPINNER' })
         })
         .catch((err) => {
          // console.log(err);

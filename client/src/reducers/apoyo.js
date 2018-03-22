@@ -1,6 +1,5 @@
 export const apoyo = (state = -1, action) => {
   var nuevoEstado = Object.assign({}, state);
-
   switch (action.type) {
     case 'GET_APOYO':
       nuevoEstado = action.data.has_voted;

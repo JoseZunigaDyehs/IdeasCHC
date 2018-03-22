@@ -2,18 +2,18 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 class Spinner extends Component {
-
   render() {
-
+    
     if (this.props.spinner) {
       return (
         <div className='spinner d-flex justify-content-center align-items-center'>
-          <i className="fas fa-spinner"></i>
+          <i className="fas fa-spinner c-pink"></i>
         </div>
       )
     } else {
       return (
-        <div></div>
+        <div className=''>
+        </div>
       )
     }
 
@@ -23,7 +23,7 @@ class Spinner extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    spinner: state.statusSpinner
+    spinner: state.spinner
   }
 }
 

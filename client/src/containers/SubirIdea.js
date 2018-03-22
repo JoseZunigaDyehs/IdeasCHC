@@ -7,7 +7,6 @@ import { reset } from 'redux-form'
 
 const Main = (props) => {
   const funcionForma = (datos) => {
-
     let config = { 'Authorization': 'Token ' + props.props.login.token }
     axios.post('https://ideas.chilecompra.cl:8000/ideas/post/',
       {
@@ -110,6 +109,7 @@ const mapDispatchToProps = (dispatch) => {
           })
           document.getElementsByName('categoria')['0'].innerHTML = opciones
           dispatch({type:'GET_CATEGORIAS',data: res.data.results})
+          dispatch({ type: 'OFF_SPINNER' })
         }
         )
         .catch(err => {

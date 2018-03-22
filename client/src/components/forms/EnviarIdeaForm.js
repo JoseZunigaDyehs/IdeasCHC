@@ -119,7 +119,6 @@ const EnviarIdeaForm = (props) => {
 
   //LOGIN
   const handleSocialLogin = (user) => {
-
     let config = {
       headers:
         {
@@ -127,14 +126,19 @@ const EnviarIdeaForm = (props) => {
           'Content-Type': 'application/json'
         }
     }
+    props.onSpinner()
     //ENVIAR USUARIO A DJANGO
-    axios.post('https://ideas.chilecompra.cl:8000/users/', {
-      username: user._profile.email,
-      email: user._profile.email,
-      password: user._profile.id,
-      first_name: user._profile.firstName,
-      last_name: user._profile.lastName
-    },
+    axios.post('https://ideas.chilecompra.cl:8000/users/',
+      {
+        user: {
+          username: user._profile.email,
+          first_name: user._profile.firstName,
+          last_name: user._profile.lastName,
+          email: user._profile.email,
+          password: user._profile.id
+        },
+        thumbnail: user._profile.profilePicURL
+      },
       config
     )
       .then(res => {
@@ -142,7 +146,7 @@ const EnviarIdeaForm = (props) => {
         //props.categorias.props.getCategorias()
       })
       .catch(err => {
-        if (err.response.data.username["0"] === 'Ya existe un usuario con este nombre.') {
+        if (err.response.data.user.username["0"] === 'Ya existe un usuario con este nombre.') {
           props.obtenerToken(user._profile);
           props.categorias.props.getCategorias()
         } else {
@@ -180,6 +184,7 @@ const EnviarIdeaForm = (props) => {
                 appId='178848131764-l6f61h1flr9rkqsilspj2ipc0bp00f1t.apps.googleusercontent.com'
                 onLoginSuccess={handleSocialLogin}
                 onLoginFailure={handleSocialLoginFailure}
+                autoLogin={true}
                 className='f-w-500 d-flex align-items-center py-3 px-5 btn btn-secondary'
               >
                 INGRESAR
@@ -235,6 +240,7 @@ const mapDispatchToProps = (dispatch) => ({
       .then(res => {
         datos.token = res.data.token;
         dispatch({ type: 'LOGIN', data: datos })
+        dispatch({type:'OFF_SPINNER'})
       })
       .catch(err => {
         console.log(err);
@@ -242,6 +248,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   errorLogin: (err) => {
     dispatch({ type: 'LOGIN_ERROR', data: err })
+  },
+  onSpinner: () => {
+    dispatch({type:'ON_SPINNER'})
   }
 });
 

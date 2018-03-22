@@ -15,7 +15,7 @@ export default combineReducers({
   showPost,
   errorShowPost,
   creado,
-  spinnerStatus: spinner,
+  spinner: spinner,
   countIdeas,
   countUsers,
   paginador,

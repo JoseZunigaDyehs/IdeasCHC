@@ -7,6 +7,7 @@ export const session = (state = null, action) => {
       nuevoEstado = action.data;
       return nuevoEstado;  
     case 'LOGOUT':
+    debugger
       nuevoEstado = null;
       return nuevoEstado;  
     default:

@@ -73,16 +73,17 @@ const Article = (props) => {
   if (props.post.error === '') {
     let fecha = "";
     if (props.post.post.created !== undefined) { fecha = fechaCorrecta(props.post.post.created) }
-debugger
     return (
       <article>
         <p className="m-0 c-gris fnt-14 text-right text-uppercase f-w-500">{fecha}</p>
         <h2 className="my-3">{props.post.post.name}</h2>
         <div className="d-flex align-items-center mb-4">
-          <div className="img-red mr-4 ml-2 back-gris rounded-circle"></div>
+          <div className="img-red mr-4 ml-2 back-gris rounded-circle" style={{overflow:'hidden'}}>
+            <img className='w-100' src={props.post.post.thumbnail} alt=""/>
+          </div>
           <div className="d-flex flex-column">
             <p className="m-0 c-gris fnt-14 text-uppercase f-w-500">POR:</p>
-            <p className="m-0 c-gris fnt-14 text-uppercase f-w-500">{props.post.post.owner}</p>
+            <p className="m-0 c-gris fnt-14 text-uppercase f-w-500">{props.post.post.first_name} {props.post.post.last_name}</p>
           </div>
         </div>
         <p>{props.post.post.content}</p>
@@ -171,13 +172,12 @@ class IdeaContainer extends Component {
   }
 
   componentWillMount() {
-    this.props.clear()
+    this.props.onSpinner()
     this.props.clearPosts()
     this.props.getPost()
   }
 
   componentWillUnmount() {
-    this.props.clear()
     this.props.clearPosts()
   }
 
@@ -196,6 +196,9 @@ class IdeaContainer extends Component {
           <IdeaAportar />
         </main>
       )
+
+      this.props.offSpinner()
+
     } else {
       return (
         <main>
@@ -227,9 +230,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       }
       axios.get(`https://ideas.chilecompra.cl:8000/ideas/${idPost}`)
         .then(res => {
-          dispatch({ type: "GET_POST", data: res.data })
           dispatch({ type: 'CLEAR_ERROR_GET_POST' })
           dispatch({ type: 'CLEAR_APOYO' })
+          dispatch({ type: 'CLEAR_POST' })
+          dispatch({ type: "GET_POST", data: res.data })
         })
         .catch(err => {
           console.log(err)
@@ -258,10 +262,17 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       )
         .then(res => {
           dispatch({ type: 'GET_APOYO', data: res.data })
+          dispatch({type:'OFF_SPINNER'})
         })
         .catch(err => {
           console.log(err);
         })
+    },
+    onSpinner: () =>{
+      dispatch({type:'ON_SPINNER'})
+    },
+    offSpinner: () =>{
+      dispatch({type:'OFF_SPINNER'})
     }
   }
 }
