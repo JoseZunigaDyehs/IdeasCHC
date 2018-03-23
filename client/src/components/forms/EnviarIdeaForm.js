@@ -143,7 +143,6 @@ const EnviarIdeaForm = (props) => {
     )
       .then(res => {
         props.obtenerToken(user._profile);
-        //props.categorias.props.getCategorias()
       })
       .catch(err => {
         if (err.response.data.user.username["0"] === 'Ya existe un usuario con este nombre.') {
@@ -184,7 +183,7 @@ const EnviarIdeaForm = (props) => {
                 appId='178848131764-l6f61h1flr9rkqsilspj2ipc0bp00f1t.apps.googleusercontent.com'
                 onLoginSuccess={handleSocialLogin}
                 onLoginFailure={handleSocialLoginFailure}
-                autoLogin={true}
+                autoLogin={props.autolog}
                 className='f-w-500 d-flex align-items-center py-3 px-5 btn btn-secondary'
               >
                 INGRESAR
@@ -217,7 +216,7 @@ const EnviarIdeaForm = (props) => {
 
 const mapStateToProps = (state) => ({
   login: state.login,
-
+  autolog: state.autolog
 });
 
 const mapDispatchToProps = (dispatch) => ({

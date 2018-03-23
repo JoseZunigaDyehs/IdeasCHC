@@ -107,7 +107,7 @@ const Ideas = (props) => {
 
   if (props.props.post.pk !== undefined && props.props.ideas['0'] === undefined) {
 
-    props.props.getPostsByCategoria(props.props.post.category.pk);
+    props.props.getPostsByCategoria(props.props.post.category.pk, props.props.login);
   }
   if (props.props.ideas['0'] === undefined) {
     props.props.ideas.concat(IdeaPrototipo);
@@ -246,10 +246,13 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     clearPosts: () => {
       dispatch({ type: 'DATA_CLEAR' })
     },
-    getPostsByCategoria: (idCategoria) => {
+    getPostsByCategoria: (idCategoria, login) => {
       axios.get(`https://ideas.chilecompra.cl:8000/ideas/?category=${idCategoria}`)
         .then((res) => {
           dispatch({ type: "DATA_LOADER", data: res.data })
+          if(login===null){
+            dispatch({type:'OFF_SPINNER'})
+          }
         })
         .catch((err) => {
           console.log(err);

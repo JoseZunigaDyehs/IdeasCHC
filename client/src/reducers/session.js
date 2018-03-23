@@ -7,8 +7,23 @@ export const session = (state = null, action) => {
       nuevoEstado = action.data;
       return nuevoEstado;  
     case 'LOGOUT':
-    debugger
       nuevoEstado = null;
+      return nuevoEstado;  
+    default:
+      return state;
+  }
+
+}
+
+export const autolog = (state = true, action) => {
+  var nuevoEstado = Object.assign({}, state);
+
+  switch (action.type) {
+    case 'AUTOLOG_ON':
+      nuevoEstado = true;
+      return nuevoEstado;  
+    case 'AUTOLOG_OFF':
+      nuevoEstado = false;
       return nuevoEstado;  
     default:
       return state;

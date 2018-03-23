@@ -129,8 +129,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch({ type: 'LOGIN_ERROR', data: err })
     },
     logout: () => {
-      debugger
       dispatch({type:'LOGOUT'})
+      dispatch({type: 'AUTOLOG_OFF'})
     }
   }
 }

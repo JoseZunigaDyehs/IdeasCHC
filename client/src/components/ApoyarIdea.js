@@ -8,7 +8,7 @@ class ApoyarIdea extends Component {
   postApoyo = (e, post) => {
     if (e !== undefined) {
       const token = this.props.login.token;
-      this.props.apoyar(post, token, this.props.getPost, this.props.getVotoIdea,this.props.login.email);
+      this.props.apoyar(post, token, this.props.getPost, this.props.getVotoIdea, this.props.login.email);
     }
   }
 
@@ -27,17 +27,17 @@ class ApoyarIdea extends Component {
         }
     }
     //ENVIAR USUARIO A DJANGO
-    axios.post('https://ideas.chilecompra.cl:8000/users/', 
-    {
-      user: {
-        username: user._profile.email,
-        first_name: user._profile.firstName,
-        last_name: user._profile.lastName,
-        email: user._profile.email,
-        password: user._profile.id
+    axios.post('https://ideas.chilecompra.cl:8000/users/',
+      {
+        user: {
+          username: user._profile.email,
+          first_name: user._profile.firstName,
+          last_name: user._profile.lastName,
+          email: user._profile.email,
+          password: user._profile.id
+        },
+        thumbnail: user._profile.profilePicURL
       },
-      thumbnail: user._profile.profilePicURL
-    },
       config
     )
       .then(res => {
@@ -45,7 +45,7 @@ class ApoyarIdea extends Component {
       })
       .catch(err => {
         if (err.response.data.user.username["0"] === 'Ya existe un usuario con este nombre.') {
-          this.props.obtenerToken(user._profile,this.props.post.pk, this.props.getVotoIdea);
+          this.props.obtenerToken(user._profile, this.props.post.pk, this.props.getVotoIdea);
         } else {
           console.log(err);
         }
@@ -71,7 +71,7 @@ class ApoyarIdea extends Component {
                 appId='178848131764-l6f61h1flr9rkqsilspj2ipc0bp00f1t.apps.googleusercontent.com'
                 onLoginSuccess={this.handleSocialLogin}
                 onLoginFailure={this.handleSocialLoginFailure}
-                autoLogin={true}
+                autoLogin={this.props.autolog}
                 className='f-w-500 d-flex align-items-center py-3 px-5 btn btn-secondary'
               >
                 INGRESAR
@@ -106,13 +106,12 @@ class ApoyarIdea extends Component {
 }
 
 
-const mapStateToProps = (state) => {
-  return {
-    login: state.login,
-    post: state.showPost,
-    apoyo: state.apoyo
-  }
-}
+const mapStateToProps = (state) => ({
+  login: state.login,
+  post: state.showPost,
+  apoyo: state.apoyo,
+  autolog: state.autolog
+})
 
 //ACCIONAR LOS DISPATCH, PASA UNA ACCION AL STORE
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -125,7 +124,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         .then(res => {
           dispatch({ type: "GET_POST", data: res.data })
           dispatch({ type: 'CLEAR_ERROR_GET_POST' })
-          dispatch({type:'DATA_CLEAR'})
+          dispatch({ type: 'DATA_CLEAR' })
         })
         .catch(err => {
           console.log(err)
@@ -146,7 +145,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
           if (res.statusText === "Created") {
             post.votes = post.votes + 1
             dispatch({ type: "GET_POST", data: post })
-            
+
             getVoto(post.pk, user)
             getPost(post.pk)
           }
@@ -205,7 +204,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch({ type: 'LOGIN_ERROR', data: err })
     },
     getVotoIdea: (_ideaId, _userId) => {
-      
+
       let ideaId = parseInt(_ideaId)
       axios.post('https://ideas.chilecompra.cl:8000/votes/ideapost/',
         { idea: ideaId, user: _userId }
